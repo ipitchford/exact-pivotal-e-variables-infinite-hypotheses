@@ -46,7 +46,10 @@ jobs:
                   if len(a) != len(b): return [(path, len(a), len(b))]
                   return [d for i, (x, y) in enumerate(zip(a, b)) for d in diffs(x, y, f"{path}[{i}]")]
               if isinstance(a, float) and isinstance(b, float):
-                  return [] if math.isclose(a, b, rel_tol=1e-6, abs_tol=1e-9) else [(path, a, b)]
+                  # The SLSQP maximiser (exact_optimum_e) is not quoted in the paper and moves by about 1e-6 across
+                  # platforms on a flat optimum; its value exact_optimum_value is compared at the general tolerance.
+                  tol = 1e-4 if path.startswith("/exact_optimum_e[") else 1e-9
+                  return [] if math.isclose(a, b, rel_tol=1e-6, abs_tol=tol) else [(path, a, b)]
               return [] if (type(a) is type(b) and a == b) else [(path, a, b)]
           # Exact rationals are stored as strings and booleans and must match exactly; floats come from linear
           # programmes, an optimiser and quadrature and may differ in the last digits across platforms.

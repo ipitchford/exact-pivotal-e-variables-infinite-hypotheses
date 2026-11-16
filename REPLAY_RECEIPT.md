@@ -16,4 +16,4 @@ No script uses `assert`: every check raises `ArithmeticError`, so the checks sta
 After this replay only the title-page version/DOI line and the companion entry of the bibliography (now with its DOI and
 release URL) changed in the manuscript (PDF rebuilt), together with the release records (README, metadata); no script
 or recorded output changed. GitHub CI reruns all three scripts under `-O`, compares their output with the recorded files
-(exact fields exactly; floats, which come from linear programmes, an optimiser and quadrature, within a declared tolerance of 1e-6 relative or 1e-9 absolute) and runs both negative controls (blocking).
+(exact fields exactly; floats, which come from linear programmes, an optimiser and quadrature, within a declared tolerance of 1e-6 relative or 1e-9 absolute; the coordinates of the optimiser's maximiser `exact_optimum_e`, which the paper does not quote and which move by about 1e-6 between macOS and Linux, within 1e-4 absolute) and runs both negative controls (blocking).
