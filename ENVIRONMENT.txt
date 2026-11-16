@@ -14,4 +14,5 @@ Commands (from the package root; each script prints JSON on standard output):
   $UV python -I -B -O verification/checks/extension_checks.py > extension_checks.json  # about 1 s
 
 Fields that legitimately vary between runs: "python", "numpy" and "scipy" in finite_example.json (the recorded file was
-produced under CPython 3.11.14); on other platforms, the last digits of linear-programming and optimiser floats.
+produced under CPython 3.11.14); on other platforms, the last digits of linear-programming floats and, by about 1e-6, the
+coordinates of the optimiser's maximiser "exact_optimum_e" in pivot_comparison.json (its value "exact_optimum_value" is stable).

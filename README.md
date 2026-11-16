@@ -92,7 +92,7 @@ done
 
 Every script raises an exception (exit 1) if any check fails and uses no `assert`, so the checks stay active under
 `python -O`. The outputs match the recorded files apart from the interpreter version field and, on other platforms,
-possibly the last digits of linear-programming floats. `finite_example.py --no-scipy` runs only the standard-library
+possibly the last digits of linear-programming floats and of the optimiser's maximiser (not quoted in the paper). `finite_example.py --no-scipy` runs only the standard-library
 rational certificate. The computations check the stated constants and the worked example; the general statements rest on
 the written proofs.
 
