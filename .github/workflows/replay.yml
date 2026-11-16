@@ -38,20 +38,25 @@ jobs:
           from pathlib import Path
           new, old = Path(sys.argv[1]), Path(sys.argv[2])
           skip = {"python", "numpy", "scipy"}
-          def same(a, b):
+          def diffs(a, b, path=""):
               if isinstance(a, dict) and isinstance(b, dict):
-                  return set(a) == set(b) and all(same(a[k], b[k]) for k in a)
+                  if set(a) != set(b): return [(path, "keys", sorted(set(a) ^ set(b)))]
+                  return [d for k in a for d in diffs(a[k], b[k], path + "/" + k)]
               if isinstance(a, list) and isinstance(b, list):
-                  return len(a) == len(b) and all(same(x, y) for x, y in zip(a, b))
+                  if len(a) != len(b): return [(path, len(a), len(b))]
+                  return [d for i, (x, y) in enumerate(zip(a, b)) for d in diffs(x, y, f"{path}[{i}]")]
               if isinstance(a, float) and isinstance(b, float):
-                  return math.isclose(a, b, rel_tol=1e-6, abs_tol=1e-9)
-              return type(a) is type(b) and a == b
+                  return [] if math.isclose(a, b, rel_tol=1e-6, abs_tol=1e-9) else [(path, a, b)]
+              return [] if (type(a) is type(b) and a == b) else [(path, a, b)]
           # Exact rationals are stored as strings and booleans and must match exactly; floats come from linear
           # programmes, an optimiser and quadrature and may differ in the last digits across platforms.
+          bad = []
           for f in ["finite_example.json", "pivot_comparison.json", "extension_checks.json"]:
               g, s = (json.loads((p / f).read_text()) for p in (new, old))
-              if not same({k: v for k, v in g.items() if k not in skip}, {k: v for k, v in s.items() if k not in skip}):
-                  raise SystemExit(f"{f} differs from the recorded output beyond the declared tolerance")
+              d = diffs({k: v for k, v in g.items() if k not in skip}, {k: v for k, v in s.items() if k not in skip})
+              for x in d: print(f, *x)
+              bad += d
+          if bad: raise SystemExit("outputs differ from the recorded outputs beyond the declared tolerance")
           ex = json.loads((new / "finite_example.json").read_text())["example"]["exact_certificate"]
           if ex["delta"] != "6/31" or ex["rational_certificate_verified"] is not True: raise SystemExit("certificate")
           print("PASS: three outputs agree with the recorded outputs; both negative controls detected")
