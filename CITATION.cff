@@ -1,0 +1,37 @@
+cff-version: 1.2.0
+message: "If you use this work, please cite it using these metadata."
+type: software
+title: "Exact pivotal e-variables for infinite hypotheses: a binary construction and what pivotality costs"
+abstract: "Unrefereed research candidate. An e-variable is exact if its expectation is one under every null and pivotal if its law is the same under every null. Zhang, Ramdas and Wang (Annals of Statistics, 2024) characterised bounded exact e-variables with uniformly positive e-power for infinite families by a closure condition and conjectured a pivotal version. This work turns any bounded score separating the alternatives from the null span by a margin delta into a coin that is fair under every null and biased under every alternative; betting the Kelly fraction gives an exact pivotal e-variable with e-power at least I(delta) = [(1+delta)log(1+delta) + (1-delta)log(1-delta)]/2, the best guarantee depending on delta alone. This proves the sufficiency direction of the conjecture and gives a transport-free proof of the corresponding step of the finite theorem. For unbounded e-variables pivotality can cost all the power: an example with one alternative has an exact e-variable with e-power at least (1/4)log(27/16) while every pivotal e-variable has none. A sentence of Theorem 6.8 about tightness is false; weak compactness in L1 repairs it, and under it the conjecture holds in both directions."
+authors:
+  - name: "Anonymous"
+version: "0.1.0-candidate"
+date-released: "2026-11-16"
+doi: "10.5281/zenodo.24268845"
+identifiers:
+  - type: doi
+    value: "10.5281/zenodo.24268845"
+    description: "This version"
+  - type: doi
+    value: "10.5281/zenodo.24268844"
+    description: "All versions (concept DOI)"
+repository-code: "https://github.com/ipitchford/exact-pivotal-e-variables-infinite-hypotheses"
+url: "https://evidencepress.org/releases/exact-pivotal-e-variables-infinite-hypotheses/"
+license: CC0-1.0
+keywords:
+  - e-values
+  - composite hypotheses
+  - exact calibration
+  - pivotal statistics
+  - nuisance parameters
+  - Kelly betting
+preferred-citation:
+  type: article
+  title: "Exact pivotal e-variables for infinite hypotheses: a binary construction and what pivotality costs"
+  authors:
+    - name: "Anonymous"
+  year: 2026
+  doi: "10.5281/zenodo.24268845"
+  publisher:
+    name: "Zenodo"
+  notes: "Version 0.1.0-candidate; unrefereed"

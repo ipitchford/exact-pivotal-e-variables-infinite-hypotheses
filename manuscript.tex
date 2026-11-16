@@ -1,0 +1,575 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[margin=28mm]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{microtype}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage[colorlinks=true,linkcolor=teal!60!black,citecolor=violet!70!black,urlcolor=teal!60!black]{hyperref}
+\usepackage{enumitem}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+\newcommand{\PP}{\mathcal P}
+\newcommand{\QQ}{\mathcal Q}
+\newcommand{\EE}{\mathbb E}
+\newcommand{\one}{\mathbf 1}
+\newcommand{\conv}{\operatorname{conv}}
+\newcommand{\spn}{\operatorname{span}}
+\newcommand{\dist}{\operatorname{dist}}
+\newcommand{\Bern}{\operatorname{Bern}}
+\newcommand{\Unif}{\operatorname{Unif}}
+\newcommand{\pt}{\varepsilon}
+\DeclareMathOperator{\arctanh}{arctanh}
+\title{Exact pivotal e-variables for infinite hypotheses:\\
+a binary construction and what pivotality costs}
+\author{Anonymous}
+\date{15 November 2026\\[2pt]\small Version 0.1.0-candidate, DOI \href{https://doi.org/10.5281/zenodo.24268845}{10.5281/zenodo.24268845}}
+\begin{document}
+\maketitle
+
+\begin{abstract}
+An e-variable is a nonnegative statistic whose expectation is at most one under every null distribution. It is \emph{exact} if that expectation equals one under every null, and \emph{pivotal} if its whole distribution is the same under every null, so that its null law is known even though the true null is not. Zhang, Ramdas and Wang (2024) characterised when bounded exact e-variables with uniformly positive expected logarithm exist for infinite families, by a separation condition between the alternatives and the linear span of the nulls, and conjectured a pivotal version. We give a two-line construction that settles the sufficiency direction of that conjecture. A bounded score that separates the alternatives from the null span is turned, with an independent uniform variable, into a fair coin under every null and a biased coin under every alternative. If the separation margin, measured in the variation norm (twice the total-variation distance), is \(\delta\), the resulting exact pivotal e-variable has expected logarithm at least \(\tfrac12[(1+\delta)\log(1+\delta)+(1-\delta)\log(1-\delta)]\) under every alternative, and no larger guarantee depending only on \(\delta\) is possible. Restricted to finite families, the construction gives a short proof, without optimal transport, of the step in Zhang, Ramdas and Wang's existence theorem that derives exact pivotal p- and e-variables from the separation condition. For unbounded e-variables we show that pivotality has a real cost: a pivotal statistic cannot distinguish an alternative that lies in the closed span of the nulls, and we construct an experiment, with one alternative and a closed convex null family, where an exact e-variable has positive expected logarithm but every pivotal e-variable has none. We also give a counterexample to the sentence of Zhang, Ramdas and Wang's Theorem~6.8 asserting that tightness of the alternatives makes a simpler criterion equivalent, repair it with weak compactness in \(L^1\), and deduce that the pivotal conjecture holds as stated whenever the convex hull of the alternatives is weakly compact.
+\end{abstract}
+
+\section{Introduction}\label{sec:intro}
+
+This section explains the question, what was known, what is new, and how the paper is organised.
+
+\paragraph{E-variables, exactness and pivotality.}
+Let \(\PP\) be a family of null distributions and \(\QQ\) a family of alternatives on a common sample space. An \emph{e-variable} for \(\PP\) is a statistic \(E\ge0\) with \(\EE_PE\le1\) for every \(P\in\PP\). Large values are evidence against the null: by Markov's inequality, rejecting when \(E\ge1/\alpha\) is a level-\(\alpha\) test, and products of e-variables computed on independent data are again e-variables \cite{VovkWang,RamdasWang}. The usual measure of performance is the \emph{e-power} \(\EE_Q\log E\), the expected logarithmic growth of the evidence; it is the growth rate of a gambler who repeatedly bets against the null \cite{Kelly,GHK}. Zhang, Ramdas and Wang \cite{ZRW} studied two stronger requirements. An e-variable is \emph{exact} if \(\EE_PE=1\) for every null. For a simple null this costs nothing, since any e-variable with expectation below one can be enlarged; exactness is the expectation-level counterpart of a p-value that is exactly uniform. It is \emph{pivotal} if its distribution is the same under every null. Then its null distribution is known exactly, even when the null contains nuisance parameters, and any calibration, threshold or combination rule can be set by that single law.
+
+\paragraph{What was known.}
+For finite families \(\PP=\{P_1,\dots,P_L\}\) and \(\QQ=\{Q_1,\dots,Q_M\}\), Zhang, Ramdas and Wang \cite[Theorem~6.1]{ZRW} proved, under a mild randomisation condition called joint atomlessness, that the following are equivalent: an exact p-variable with some power exists; a bounded exact pivotal e-variable with positive e-power exists; an exact e-variable whose expectation exceeds one under every alternative exists; and the convex hull of the alternatives does not meet the linear span of the nulls. The span appears because exactness is a family of equality constraints. Their proof of the pivotal part uses simultaneous optimal transport, and the monograph of Ramdas and Wang notes that the result ``requires modern tools from optimal transport'' \cite[Section~14.3]{RamdasWang}. For infinite families \cite[Theorem~6.8]{ZRW} characterises bounded exact e-variables with uniformly positive e-power: they exist if and only if zero is not in the total-variation closure of \(\spn\PP+\conv\QQ\). The authors noted that dealing with pivotal p-variables in this generality ``appears beyond the techniques'' of their paper, and posed \cite[Conjecture~6.9]{ZRW}: under joint atomlessness, an exact pivotal e-variable with uniformly positive e-power exists if and only if the same closure condition holds. (Print numbering is used throughout; in the arXiv version 2305.16539v4 Theorem~6.8, Conjecture~6.9 and Example~6.11 are numbered 6.7, 6.8 and 6.10.)
+
+The ``only if'' direction of the conjecture fails once unbounded e-variables are allowed. Ramdas and Wang \cite[Example~3.15]{RamdasWang} separate bounded from unbounded e-variables, and Ram, Larsson, Ruf and Ramdas \cite[Example~5.1]{GROW} give an exact unbounded e-variable with uniformly positive e-power for a single null lying in the closed convex hull of the alternatives; with a single null every statistic is pivotal, and an appended uniform coordinate supplies joint atomlessness. The same paper treats compactness and truncation for unrestricted e-variables \cite[Theorem~4.17]{GROW}. Larsson, Ruf and Ramdas \cite{LRR} characterise ordinary testability, without equality constraints, extending the separation theorem of Kraft and Le Cam \cite{LeCam}. He and Cheng \cite{HeCheng} show, for a \emph{finite} null family, a simple alternative and \(n\) independent observations, that the optimal e-power of exact pivotal e-variables per observation tends to \(\min_iD(Q\Vert P_i)\), so that pivotality is asymptotically free there. Forr\'e \cite{Forre,ForreTail} studies why e-power alone does not guarantee detection in finite time. A companion release \cite{companion} quantifies the cost of exactness for growing families of Gaussian nulls.
+
+\paragraph{What is new.}
+\begin{enumerate}[leftmargin=*]
+\item \emph{A binary pivot} (Section~\ref{sec:binary}). Let \(\delta\) be the distance, in the variation norm, from zero to the closure of \(\spn\PP+\conv\QQ\). Under domination and joint atomlessness, \(\delta>0\) is equivalent to the existence of a bounded exact pivotal e-variable with uniformly positive e-power, and to an exact p-variable whose distribution function exceeds the uniform one by \(\delta\min(t,1-t)\) under every alternative (Theorem~\ref{thm:main}). The construction guarantees e-power \(I(\delta)\), the Kullback--Leibler divergence between Bernoulli\(((1+\delta)/2)\) and Bernoulli\((1/2)\), and this is the best guarantee that depends on \(\delta\) alone (Theorem~\ref{thm:sharp}). This proves the ``if'' direction of Conjecture~6.9 and, for finite families, gives a transport-free proof of the implications (e)\(\Rightarrow\)(a),(b) of \cite[Theorem~6.1]{ZRW} (Corollary~\ref{cor:zrw}).
+\item \emph{What pivotality costs for unbounded e-variables} (Section~\ref{sec:unbounded}). A pivotal statistic has the same law under an alternative as under the nulls whenever that alternative lies in the \(L^1\)-closed span of the nulls (Proposition~\ref{prop:tv}). Consequently pivotality is not free: we give an experiment with a single alternative and a convex, variation-closed null family in which an exact e-variable has e-power at least \(\tfrac14\log(27/16)\), whereas every pivotal e-variable has nonpositive e-power (Theorem~\ref{thm:notfree}). For bounded e-variables, for finite families, and in the large-sample limit for finite nulls, pivotality costs nothing as far as the existence of e-power is concerned. We also give a uniform-integrability criterion and a strict two-sided bracket for the unbounded pivotal problem.
+\item \emph{Compactness} (Section~\ref{sec:compact}). The final sentence of \cite[Theorem~6.8]{ZRW}, that tightness of \(\QQ\) makes the closure condition equivalent to disjointness of the closed span of \(\PP\) and the closed convex hull of \(\QQ\), is false, even on a compact sample space (Theorem~\ref{thm:compactcounter}). Weak compactness in \(L^1\) is a correct replacement (Proposition~\ref{prop:weakcompact}), and under weak compactness of \(\conv\QQ\) Conjecture~6.9 holds in both directions (Corollary~\ref{cor:conjcompact}).
+\item \emph{Illustrations} (Sections~\ref{sec:sequential} and~\ref{sec:finite}). An explicit contamination model quantifies the gap between e-power and detection time, and a four-state example with an exact rational certificate shows the sizes of the binary guarantee, a better pivotal e-variable, and the unconstrained exact optimum.
+\end{enumerate}
+
+\paragraph{The idea in one paragraph.}
+A bounded score \(h\) with zero mean under every null and mean at least \(\delta\) under every alternative is, after the affine change \(\phi=(1+h)/2\), a randomised test whose rejection probability is exactly \(1/2\) under every null: a \emph{similar} test in the classical sense \cite[Chapter~4]{LehmannRomano}. Realising its decision with an independent uniform variable, \(B=\one\{U\le\phi\}\), produces a coin that is fair under every null and has success probability at least \((1+\delta)/2\) under every alternative. Betting the Kelly fraction \(\delta\) of one's wealth on that coin gives the e-variable \(1+\delta(2B-1)\). Every step is classical; the point is that this short route suffices for infinite families, where Zhang, Ramdas and Wang expected the theory of simultaneous transport to be needed, and that its guarantee is the best possible given \(\delta\) alone. Zhang, Ramdas and Wang's sign-test example \cite[Example~6.11]{ZRW} is a special case in which a fair coin, the sign of a symmetric observation, is already present.
+
+\paragraph{Roadmap.}
+Section~\ref{sec:setting} fixes notation and proves the duality behind \(\delta\). Section~\ref{sec:binary} gives the binary pivot and its consequences. Section~\ref{sec:unbounded} turns to unbounded e-variables. Section~\ref{sec:compact} treats compactness. Section~\ref{sec:sequential} gives sequential consequences, Section~\ref{sec:finite} a finite example, and Section~\ref{sec:scope} the open questions.
+
+\section{Setting and the separation margin}\label{sec:setting}
+
+This section defines the objects used throughout and shows that the margin \(\delta\) is the value of a linear optimisation over bounded scores.
+
+\paragraph{Hypotheses and statistics.}
+Let \((\Omega,\mathcal F)\) carry a probability measure \(R\) that dominates every member of the nonempty families \(\PP\) and \(\QQ\). We identify each measure with its density with respect to \(R\). For a statistic \(E\ge0\) and an alternative family we write
+\[
+ g_{\QQ}(E)=\inf_{Q\in\QQ}\EE_Q\log E
+\]
+for its \emph{uniform e-power}. Logarithms are natural, \(\log0=-\infty\), and an expectation of \(\log E\) is understood in the extended sense whenever the positive or the negative part is integrable. Uniform e-power is an expectation criterion, not by itself a guarantee of power at a fixed sample size (Section~\ref{sec:sequential}). A statistic \(T\) with values in \([0,1]\) is a \emph{p-variable} if \(P(T\le t)\le t\) for all \(t\in(0,1)\) and \(P\in\PP\), and an \emph{exact} p-variable if equality always holds, that is, if \(T\) is uniform under every null. An exact p-variable is pivotal. Point masses are written \(\pt_x\).
+
+\paragraph{The margin.}
+Put
+\begin{equation}\label{eq:SC}
+ S=\overline{\spn\{dP/dR:P\in\PP\}}^{\,L^1(R)},\qquad
+ C=\overline{\conv\{dQ/dR:Q\in\QQ\}}^{\,L^1(R)},
+\end{equation}
+and
+\begin{equation}\label{eq:delta}
+ \delta=\inf_{s\in S,\,c\in C}\|c-s\|_1=\dist\bigl(0,\overline{S+C}^{\,L^1(R)}\bigr).
+\end{equation}
+The \(L^1(R)\) norm of a density difference is the variation norm of the corresponding signed measure; for probability measures it equals \(2d_{\rm TV}(P,Q)\), where \(d_{\rm TV}(P,Q)=\sup_A|P(A)-Q(A)|\). The sign in \(S+C\) is immaterial because \(S\) is a linear space, and the definition does not depend on the choice of \(R\). Since \(0\in S\) and every element of \(C\) has norm one, \(0\le\delta\le1\). The condition \(\delta>0\) is the closure condition of \cite[Theorem~6.8 and Conjecture~6.9]{ZRW}.
+
+\paragraph{Randomisation.}
+Let \(\mathcal G=\sigma\{dP/dR,\,dQ/dR:P\in\PP,Q\in\QQ\}\). We assume \emph{common randomisation}: there is a random variable \(U\), uniform on \([0,1]\) under \(R\) and independent of \(\mathcal G\) under \(R\). Because every hypothesis has a \(\mathcal G\)-measurable density, \(U\) is then uniform and independent of \(\mathcal G\) under every hypothesis as well. A single uniform splits into two independent uniforms by taking alternate binary digits (the dyadic rationals, which have two expansions, form a null set). This is the joint atomlessness condition of \cite[Definition~2.2]{ZRW} for the tuple \((\PP,\QQ)\): if \(\xi\) is atomless and independent of the densities under a dominating probability \(\mu\), take \(R=\mu\) and \(U=F_\xi(\xi)\), where \(F_\xi\) is the distribution function of \(\xi\). It holds whenever an independent uniform coordinate is appended to the data. No finite-dimensionality is assumed anywhere.
+
+\begin{remark}[Randomisation is a substantive assumption]
+On three points take \(P_1=(1/2,1/3,1/6)\), \(P_2=(1/3,1/6,1/2)\) and \(Q=(1,0,0)\). The score \(h=(5/7,-1,-1/7)\) has mean zero under both nulls and mean \(5/7\) under \(Q\), so \(\delta>0\). No proper nonempty subset of the three points has equal probability under \(P_1\) and \(P_2\), so every non-randomised statistic with a common null distribution is constant. An appended uniform coordinate removes the obstruction.
+\end{remark}
+
+\begin{lemma}[Separation duality]\label{lem:dual}
+There is an \(h\in L^\infty(R)\) with
+\begin{equation}\label{eq:dual}
+ \|h\|_\infty\le1,\qquad \EE_Ph=0\ \ (P\in\PP),\qquad \inf_{Q\in\QQ}\EE_Qh=\delta,
+\end{equation}
+and \(\delta\) is the largest value of \(\inf_Q\EE_Qh\) over all \(h\) satisfying the first two conditions. The maximiser may be taken \(\mathcal G\)-measurable.
+\end{lemma}
+\begin{proof}
+The argument follows the proof of \cite[Theorem~6.8]{ZRW}, keeping track of the constant. If \(h\) satisfies the first two conditions, it integrates to zero against every \(s\in S\), so for \(c\in C\) we have \(\langle h,c\rangle=\langle h,c-s\rangle\le\|c-s\|_1\); taking infima gives \(\inf_Q\EE_Qh\le\delta\). If \(\delta=0\), \(h=0\) attains this. Otherwise the open ball of radius \(\delta\) about zero in \(L^1(R)\) is disjoint from the closed convex set \(\overline{S+C}\). By the Hahn--Banach separation theorem there is a continuous linear functional of norm one whose infimum on \(\overline{S+C}\) is at least its supremum \(\delta\) on the ball. Its infimum over \(S+C\) is finite, and \(S\) is a linear space, so the functional vanishes on \(S\); its infimum on \(C\) is therefore at least \(\delta\), and by the first part it equals \(\delta\). Since \((L^1(R))^*=L^\infty(R)\), the functional is integration against some \(h\) satisfying~\eqref{eq:dual}. Finally, replace \(h\) by \(\EE_R[h\mid\mathcal G]\): the bound is preserved, and because every density is \(\mathcal G\)-measurable, so is every expectation in~\eqref{eq:dual}.
+\end{proof}
+
+\section{The binary pivot}\label{sec:binary}
+
+This section states and proves the main construction, shows that its guarantee cannot be improved using \(\delta\) alone, and records its consequences for the results and conjecture of \cite{ZRW}.
+
+Define, with \(0\log0=0\),
+\begin{equation}\label{eq:I}
+ I(d)=\frac{1+d}{2}\log(1+d)+\frac{1-d}{2}\log(1-d)=D\bigl(\Bern(\tfrac{1+d}2)\,\big\Vert\,\Bern(\tfrac12)\bigr),\qquad 0\le d\le1 .
+\end{equation}
+Thus \(I(0)=0\), \(I(1)=\log2\), \(I'(d)=\arctanh d\) for \(0<d<1\), and \(I(d)=d^2/2+d^4/12+O(d^6)\) as \(d\to0\).
+
+\begin{theorem}[Binary pivot]\label{thm:main}
+Assume domination and common randomisation. The following are equivalent.
+\begin{enumerate}[label=(\roman*)]
+\item \(\delta>0\).
+\item There is a bounded exact e-variable \(E\) with \(g_{\QQ}(E)>0\).
+\item There is a bounded exact pivotal e-variable \(E\) with \(g_{\QQ}(E)>0\).
+\item There are an exact p-variable \(T\) and an \(\eta>0\) such that
+\begin{equation}\label{eq:cdf}
+ Q(T\le t)\ge t+\eta\min(t,1-t)\qquad(Q\in\QQ,\ 0<t<1).
+\end{equation}
+\end{enumerate}
+If \(\delta>0\), one may take \(\eta=\delta\) in~\eqref{eq:cdf}, and no larger \(\eta\) is possible in the given experiment. There is a statistic \(B\) with the \(\Bern(1/2)\) law under every null such that
+\begin{equation}\label{eq:binary}
+ E_\delta=1+\delta(2B-1)\quad\text{satisfies}\quad g_{\QQ}(E_\delta)=I(\delta).
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+Take a \(\mathcal G\)-measurable \(h\) from Lemma~\ref{lem:dual} and independent uniforms \(U,V\) independent of \(\mathcal G\), and put
+\[
+ B=\one\{U\le(1+h)/2\}.
+\]
+For any hypothesis \(M\), conditioning on \(\mathcal G\) under \(R\) and integrating against the \(\mathcal G\)-measurable density of \(M\) gives
+\begin{equation}\label{eq:coin}
+ M(B=1)=\frac{1+\EE_Mh}{2}.
+\end{equation}
+Hence \(B\sim\Bern(1/2)\) under every null. For an alternative put \(m_Q=\EE_Qh\), so \(m_Q\ge\delta\) and \(\inf_Qm_Q=\delta\). For \(0<\delta<1\),
+\[
+ \EE_Q\log E_\delta=\tfrac12\log(1-\delta^2)+m_Q\arctanh\delta ,
+\]
+which is affine and increasing in \(m_Q\); its infimum over \(\QQ\) is \(I(\delta)\), whether or not the infimum of \(m_Q\) is attained. At \(\delta=1\), \(m_Q=1\) forces \(Q(B=0)=0\), so \(E_1=2B\) has \(\EE_Q\log E_1=\log2\); if a strictly positive statistic is preferred, \(1+\lambda(2B-1)\) with \(0<\lambda<1\) serves for existence. Exactness and pivotality hold because the null law of \(B\) is the same fair coin for every null.
+
+Now set \(T=(1-B+V)/2\). Under each hypothesis \(V\) is independent of \(B\), because \(B\) is a function of \(U\) and \(\mathcal G\). Under a null, \(T\) is therefore uniform on \([0,1]\). Under an alternative, \(T\) is uniform on \([0,1/2]\) with probability \((1+m_Q)/2\) and on \([1/2,1]\) otherwise, so
+\[
+ Q(T\le t)-t=m_Q\min(t,1-t),\qquad 0\le t\le1 .
+\]
+This proves (i)\(\Rightarrow\)(iii),(iv) with \(\eta=\delta\), and (iii)\(\Rightarrow\)(ii) is immediate.
+
+For (ii)\(\Rightarrow\)(i), let \(K=\|E-1\|_\infty\), which is positive since \(g_{\QQ}(E)>0\). The score \((E-1)/K\) is bounded by one, has mean zero under every null, and by \(\log x\le x-1\) has \(\inf_Q\EE_Q(E-1)/K\ge g_{\QQ}(E)/K>0\). Lemma~\ref{lem:dual} gives \(\delta>0\). For (iv)\(\Rightarrow\)(i), and for the optimality of \(\eta=\delta\), note that \(2\one\{T\le1/2\}-1\) has mean zero under every null and mean at least \(\eta\) under every alternative, so Lemma~\ref{lem:dual} gives \(\eta\le\delta\).
+\end{proof}
+
+\begin{theorem}[Best guarantee from the margin alone]\label{thm:sharp}
+For each \(d\in[0,1]\) there is a jointly atomless experiment with margin \(\delta=d\) in which every e-variable \(E\), exact or not and bounded or not, satisfies \(\EE_Q\log E\le I(d)\). Hence \(I(\delta)\) is the largest lower bound on the optimal uniform e-power of exact pivotal e-variables that holds in every experiment with margin \(\delta\).
+\end{theorem}
+\begin{proof}
+On two points take \(P=(1/2,1/2)\) and \(Q=((1+d)/2,(1-d)/2)\), and append an independent uniform coordinate. Then
+\(\inf_{a\in\mathbb R}\|Q-aP\|_1=\min_a\tfrac12(|1+d-a|+|1-d-a|)=d\). Let \(L=dQ/dP\). On the support of \(Q\), Jensen's inequality gives
+\[
+ \EE_Q\log E-D(Q\Vert P)=\EE_Q\log(E/L)\le\log\EE_Q(E/L)\le\log\EE_PE\le0,
+\]
+with the usual extended-value reading when \(E\) vanishes. Since \(D(Q\Vert P)=I(d)\), the bound follows; the likelihood ratio attains it.
+\end{proof}
+
+\begin{remark}[What ``best'' means here]\label{rem:sharp}
+Theorem~\ref{thm:sharp} is a statement about all experiments with a given margin. In a particular experiment the binary pivot need not be optimal among exact pivotal e-variables, and pivotal e-variables need not be optimal among exact ones. Section~\ref{sec:finite} gives an example with binary guarantee \(0.0188\), a pivotal e-variable with more than \(0.039\), and an unconstrained exact optimum of about \(0.0556\).
+\end{remark}
+
+\begin{corollary}[Consequences for the results of Zhang, Ramdas and Wang]\label{cor:zrw}
+Assume domination and common randomisation.
+\begin{enumerate}[label=(\alph*)]
+\item If zero is not in the total-variation closure of \(\spn\PP+\conv\QQ\), there is a bounded exact pivotal e-variable with uniform e-power at least \(I(\delta)>0\). This is the ``if'' direction of \cite[Conjecture~6.9]{ZRW}, in the stronger bounded form.
+\item With ``bounded'' added to the e-variable, Conjecture~6.9 is true in both directions: this is (i)\(\Leftrightarrow\)(iii) of Theorem~\ref{thm:main}. Without it, the ``only if'' direction is false (\cite[Example~5.1]{GROW} with an appended uniform coordinate, and Theorem~\ref{thm:compactcounter} below for an infinite null family).
+\item If \(\PP\) and \(\QQ\) are finite, then \(\delta>0\) if and only if \(\spn\PP\cap\conv\QQ=\varnothing\). Hence the separation condition (e) of \cite[Theorem~6.1]{ZRW} implies its conditions (a), an exact p-variable with power, and (b), a bounded exact pivotal e-variable with positive e-power, by Theorem~\ref{thm:main}, without any transport argument. The same applies to \cite[Theorem~14.6]{RamdasWang}.
+\end{enumerate}
+\end{corollary}
+\begin{proof}
+Parts (a) and (b) restate Theorem~\ref{thm:main}. For (c), \(S\) is a finite-dimensional subspace and \(C=\conv\QQ\) is compact, so \(S+C\) is closed and \(\delta=\dist(0,S+C)\) is positive exactly when \(0\notin S+C\), that is, when \(S\cap C=\varnothing\). With finitely many alternatives, uniform and pointwise positivity of e-power coincide, and \eqref{eq:cdf} gives \(Q(T\le t)>t\) for all \(t\in(0,1)\).
+\end{proof}
+
+\begin{remark}[Classical reading and related constructions]\label{rem:classical}
+The map \(\omega\mapsto B\) is a single Markov kernel that sends every null to \(\Bern(1/2)\) and every alternative \(Q\) to \(\Bern((1+m_Q)/2)\); in Blackwell's terms \cite{Blackwell} it garbles the experiment into a binary one, and \cite[Proposition~3.3]{ZRW} phrases pivot existence for finitely many nulls and a single alternative in the same kernel language. Passing from a randomised test \(\phi\) to the binary decision \(\one\{U\le\phi\}\) is standard \cite[Section~3.1]{RamdasWang}, and the proof of \cite[Theorem~3.9]{RamdasWang} passes from a bounded e-variable to a p-variable with power. He and Cheng \cite{HeCheng} also reduce to a binary target experiment, but for finitely many nulls and many observations, by matrix majorisation; their aim is the asymptotic rate, ours a one-observation uniform guarantee for arbitrary families.
+\end{remark}
+
+\section{Unbounded pivotal e-variables}\label{sec:unbounded}
+
+Theorem~\ref{thm:main} answers the bounded question completely. This section studies what changes when the e-variable may be unbounded. We first characterise the unbounded pivotal e-variables that can be truncated, then show that pivotal statistics cannot see beyond the closed span of the nulls, and use this to show that pivotality, unlike in the bounded case, can cost all of the e-power.
+
+\subsection{Truncation and logarithmic tails}
+
+\begin{theorem}[A tail criterion]\label{thm:UI}
+Under the assumptions of Theorem~\ref{thm:main}, \(\delta>0\) if and only if there is an exact pivotal e-variable \(E\) with \(g_{\QQ}(E)>0\) and
+\begin{equation}\label{eq:tail}
+ \lim_{a\to\infty}\sup_{Q\in\QQ}\EE_Q[(\log E-a)_+]=0 .
+\end{equation}
+Condition~\eqref{eq:tail} is equivalent to uniform integrability of \(\log^+E\) over \(\QQ\).
+\end{theorem}
+\begin{proof}
+The bounded e-variable of Theorem~\ref{thm:main} satisfies~\eqref{eq:tail}. Conversely, let \(F=(1+E)/2\). Then \(F\ge1/2\), \(F\) is exact and pivotal, \(\log F\ge\frac12\log E\) by concavity, and \(\log^+F\le\log^+E\); so \(g_{\QQ}(F)>0\) and~\eqref{eq:tail} holds for \(F\). By~\eqref{eq:tail}, \(\EE_Q\log^+F\) is finite, uniformly in \(Q\). For \(K>1\) the mean \(m_K=\EE_P(F\wedge K)\) is the same for every null because \(F\) is pivotal, and \(0<m_K\le1\). Hence \(F_K=(F\wedge K)/m_K\) is bounded, exact and pivotal, and for every alternative, all terms being finite,
+\[
+ \EE_Q\log F_K=\EE_Q\log F-\EE_Q[(\log F-\log K)_+]-\log m_K\ \ge\ \EE_Q\log F-\EE_Q[(\log F-\log K)_+].
+\]
+The subtracted term tends to zero uniformly in \(Q\), so \(g_{\QQ}(F_K)>0\) for large \(K\), and Theorem~\ref{thm:main} gives \(\delta>0\). The equivalence with uniform integrability follows from \((Y-a)_+\le Y\one\{Y>a\}\) and \(Y\one\{Y>2a\}\le2(Y-a)_+\) for \(Y\ge0\).
+\end{proof}
+
+The affine hedge \(F=(1+E)/2\), which keeps exactness and pivotality, is the device of \cite[Proposition~6.4]{ZRW}; pivotality is what makes the truncated mean \(m_K\) common to all nulls, so that a single normalisation preserves exactness.
+
+\begin{proposition}[An unavoidable tail]\label{prop:defect}
+Suppose \(\delta=0\), and let \(E\ge b>0\) be exact and pivotal with \(\gamma=g_{\QQ}(E)>0\). Then \(\ell=\EE_P\log E\) does not depend on \(P\in\PP\), is finite, and is at most zero, and for every \(K\ge1\)
+\begin{equation}\label{eq:defect}
+ \sup_{Q\in\QQ}\EE_Q[(\log E-\log K)_+]\ \ge\ \gamma-\EE_P\log(E\wedge K).
+\end{equation}
+In particular the left side is at least \(\gamma-\ell>0\) in the limit \(K\to\infty\).
+\end{proposition}
+\begin{proof}
+The bounded function \(f_K=\log(E\wedge K)\) has a common null mean \(\ell_K\), so \(f_K-\ell_K\) is a bounded score with zero null means. Lemma~\ref{lem:dual} with \(\delta=0\), after scaling, gives \(\inf_Q\EE_Qf_K\le\ell_K\). Choosing an alternative within \(\theta>0\) of this infimum and using \(\EE_Q\log E\ge\gamma\) gives~\eqref{eq:defect} as \(\theta\downarrow0\). Finally \(\log b\le\log E\le E\) makes \(\log E\) null-integrable, so \(\ell_K\to\ell\) by monotone convergence, and \(\ell\le\log\EE_PE=0\) by Jensen's inequality.
+\end{proof}
+
+\subsection{Pivotal statistics see only the closed span}
+
+\begin{proposition}[Pivotal laws move by at most the distance to the span]\label{prop:tv}
+Let \(X\) be any pivotal statistic, possibly using the common randomisation, with common null law \(\pi\). For every probability measure \(Q\ll R\) with density \(q\),
+\[
+ d_{\rm TV}\bigl(Q\circ X^{-1},\pi\bigr)\ \le\ \dist_{L^1(R)}(q,S).
+\]
+In particular, if \(q\in S\), then \(X\) has law \(\pi\) under \(Q\).
+\end{proposition}
+\begin{proof}
+For a measurable set \(A\) of values, \(h_A=\one\{X\in A\}-\pi(A)\) satisfies \(|h_A|\le1\) and \(\EE_Ph_A=0\) for every null, by pivotality. It therefore integrates to zero against \(\spn\PP\), and by continuity against \(S\). For \(s\in S\),
+\(Q(X\in A)-\pi(A)=\int h_A\,(q-s)\,dR\), whose absolute value is at most \(\|q-s\|_1\).
+\end{proof}
+
+\begin{corollary}[A necessary condition]\label{cor:necessary}
+If some pivotal e-variable \(E\) (exact or not, bounded or not) has \(g_{\QQ}(E)>0\), then \(\conv\QQ\cap S=\varnothing\).
+\end{corollary}
+\begin{proof}
+Let \(c=\sum_iw_iQ_i\) be a finite convex combination of alternatives. Then \(\EE_c\log E=\sum_iw_i\EE_{Q_i}\log E\ge g_{\QQ}(E)>0\). If \(c\in S\), Proposition~\ref{prop:tv} says that \(E\) has its null law \(\pi\) under \(c\), so \(\EE_c\log E=\EE_\pi\log E\le\log\EE_\pi E\le0\), a contradiction.
+\end{proof}
+
+For exact e-variables that need not be pivotal, the corresponding elementary necessary condition is only \(\spn\PP\cap\conv\QQ=\varnothing\) \cite{ZRW}, with the span not closed. The next theorem shows that the difference is real.
+
+\begin{theorem}[Pivotality is not free for unbounded e-variables]\label{thm:notfree}
+There is a dominated, jointly atomless experiment with a convex, variation-closed null family \(\PP\) and a single alternative \(Q\), all of whose hypotheses are mutually absolutely continuous, such that
+\begin{enumerate}[label=(\alph*)]
+\item an unbounded exact e-variable \(E\ge1/2\) has \(\EE_Q\log E\ge\tfrac14\log\tfrac{27}{16}>0\), but
+\item every pivotal statistic has the same law under \(Q\) as under the nulls; hence every pivotal e-variable \(Z\), exact or not, bounded or not, has \(\EE_Q\log Z\le0\).
+\end{enumerate}
+Here \(\delta=0\) and \(Q\in S\).
+\end{theorem}
+\begin{proof}
+Let the sample space be \(\mathcal X\times[0,1]\) with \(\mathcal X=\{a_n,b_n:n\ge2\}\), and let every measure below carry an independent uniform second coordinate, which supplies joint atomlessness. On \(\mathcal X\) put
+\[
+ M_n=\bigl(1-\tfrac1n\bigr)\pt_{a_n}+\tfrac1n\pt_{b_n},\qquad
+ N_n=\bigl(1-\tfrac1n\bigr)\pt_{a_{n+1}}+\tfrac1n\pt_{b_n},\qquad
+ H=\sum_{n\ge2}2^{-n}(M_n+N_n),
+\]
+so \(H\) is a probability measure charging every point. Let \(\PP\) be the set of countable probability mixtures of \(\widetilde M_n=\frac34M_n+\frac14H\) and \(\widetilde N_n=\frac34N_n+\frac14H\), \(n\ge2\), and let \(Q=\frac34\pt_{b_2}+\frac14H\). All these measures are equivalent to \(H\), and \(R=H\otimes\lambda\), with \(\lambda\) Lebesgue measure on \([0,1]\), dominates the experiment. Since \(\sum_n2^{-n}(\widetilde M_n+\widetilde N_n)=\frac34H+\frac14H=H\), the measure \(H\) is itself a null.
+
+\emph{Exactness.} Let \(E(a_n)=1/2\) and \(E(b_n)=(n+1)/2\). Then \(\EE_{M_n}E=\EE_{N_n}E=\frac{n-1}{2n}+\frac{n+1}{2n}=1\), so \(\EE_HE=1\) and, by Tonelli's theorem, \(\EE_PE=1\) for every null. Since \(\log E\ge-\log2\) and \(E(b_2)=3/2\),
+\[
+ \EE_Q\log E=\tfrac34\log\tfrac32+\tfrac14\EE_H\log E\ \ge\ \tfrac34\log\tfrac32-\tfrac14\log2=\tfrac14\log\tfrac{27}{16},
+\]
+and the expectation is finite because \(\log^+E\le E\) and \(\EE_HE=1\).
+
+\emph{Pivotal statistics.} Let \(Z\) be pivotal with null law \(\pi\), fix a set \(A\), put \(z=\pi(A)\) and let \(r(x)\in[0,1]\) be the probability that \(Z\in A\) given the first coordinate \(x\). Then \(\EE_{\widetilde M_n}r=\EE_{\widetilde N_n}r=\EE_Hr=z\), and removing the common component \(\frac14H\) gives \(\EE_{M_n}r=\EE_{N_n}r=z\), that is,
+\[
+ (n-1)r(a_n)+r(b_n)=nz=(n-1)r(a_{n+1})+r(b_n)\qquad(n\ge2).
+\]
+So \(r(a_n)=v\) for all \(n\), and \(r(b_n)=z+(n-1)(z-v)\). Boundedness of \(r\) forces \(v=z\), hence \(r\equiv z\) and \(Q(Z\in A)=z\). If \(Z\) is a pivotal e-variable, \(\EE_Q\log Z=\EE_\pi\log Z\le\log\EE_\pi Z\le0\). The same computation, applied to the conditional mean given \(x\) of a bounded score with zero null means, shows that this conditional mean vanishes. So the only bounded function of \(x\) that annihilates the null span is zero, and by the Hahn--Banach theorem the closed span \(S\) contains every integrable function of \(x\). In particular \(Q\in S\) and \(\delta=0\).
+
+\emph{Convexity and closedness.} \(\PP\) is convex. The map \(\mu\mapsto\frac34\mu+\frac14H\) multiplies variation distances by \(3/4\), so it suffices that the set of countable mixtures of the \(M_n\) and \(N_n\) is variation-closed. Let \(\mu_k=\sum_n(\alpha^k_nM_n+\beta^k_nN_n)\) converge in variation to \(\mu\). For \(N\ge2\) the components with index \(n>N\) give no mass to \(F_N=\{a_2,\dots,a_N,b_2,\dots,b_N\}\), so \(\sum_{n>N}(\alpha^k_n+\beta^k_n)\le\mu_k(\mathcal X\setminus F_N)\), which is small uniformly in large \(k\) when \(N\) is large. The weight sequences are therefore tight in \(\ell^1\); a subsequence converges in \(\ell^1\) to probability weights \((\alpha_n,\beta_n)\), and since mixing is a contraction from \(\ell^1\) to the variation norm, \(\mu=\sum_n(\alpha_nM_n+\beta_nN_n)\).
+\end{proof}
+
+\begin{remark}[A continuous version]\label{rem:continuous}
+The mechanism is visible in a simpler, though not closed, family. On \([0,1]\) (with an appended uniform coordinate) let \(Q\) have density \(q(x)=(2\sqrt x)^{-1}\), and let \(\PP\) be all laws with a bounded density \(p\) and \(\int p\,q\,dx=1\); the uniform law is one of them. Then \(E=q\) is exact, with \(\EE_Q\log E=D(Q\Vert\Unif)=1-\log2\). The span of \(\PP\) is the set of bounded \(g\) with \(\int g(q-1)\,dx=0\) (write \(g=(g+M)-M\) for a large constant \(M\)). This is the kernel of a linear functional that is unbounded for the \(L^1\) norm, hence it is dense in \(L^1[0,1]\) (functions of the first coordinate): replace a bounded \(g\) by \(g-\bigl(\int g(q-1)\bigr)v_\varepsilon\) with \(v_\varepsilon=\one_{[0,\varepsilon]}/(\sqrt\varepsilon-\varepsilon)\), whose \(L^1\) norm \(\varepsilon/(\sqrt\varepsilon-\varepsilon)\) tends to zero. So \(Q\in S\), and by Proposition~\ref{prop:tv} no pivotal e-variable has positive e-power against \(Q\). Here the exact e-variable is simply the likelihood ratio of \(Q\) to the uniform null.
+\end{remark}
+
+Theorem~\ref{thm:notfree} contrasts with three settings where pivotality costs nothing for the existence of e-power: bounded e-variables (Theorem~\ref{thm:main}), finite families \cite[Theorem~6.1]{ZRW}, and the large-sample limit for finite nulls \cite{HeCheng}. In the present example the null family is infinite and the gain of the exact e-variable comes from an unbounded score that no bounded similarity constraint can detect.
+
+\subsection{The necessary condition is not sufficient}
+
+\begin{lemma}[A chi-square obstruction]\label{lem:chisq}
+Suppose there are a null \(P\) and alternatives \(Q_k\in\QQ\) with \(Q_k\ll P\) and \(\chi^2(Q_k\Vert P)=\EE_P(dQ_k/dP-1)^2\to0\). Then every e-variable \(E\) for \(\PP\), exact or not, pivotal or not, bounded or not, has \(g_{\QQ}(E)\le0\).
+\end{lemma}
+\begin{proof}
+Write \(L_k=dQ_k/dP\). If \(E\) is \(P\)-almost surely constant, the constant is at most one and the claim is clear, because \(Q_k\ll P\). Otherwise \(\EE_P\log E<\log\EE_PE\le0\) by strict Jensen (the left side may be \(-\infty\); \(\log^+E\le E\) is integrable). For \(M>0\) put \(Y_M=\max(\log E,-M)\). As \(M\to\infty\), \(\EE_PY_M\downarrow\EE_P\log E\) by monotone convergence, so \(\EE_PY_M<0\) for some \(M\). Since \((\log y)^2\le4y/e^2\) for \(y\ge1\), \(\EE_PY_M^2\le M^2+4\EE_PE/e^2<\infty\). Then
+\[
+ \EE_{Q_k}\log E\le\EE_{Q_k}Y_M=\EE_PY_M+\EE_P[Y_M(L_k-1)]\le\EE_PY_M+(\EE_PY_M^2)^{1/2}\chi^2(Q_k\Vert P)^{1/2},
+\]
+which is negative for large \(k\).
+\end{proof}
+
+This extends to all e-variables the bounded argument of \cite[Example~A.4 of arXiv:2305.16539v4]{ZRW}.
+
+\begin{example}[Separated from the closed span, yet powerless]\label{ex:gauss}
+Let \(\PP=\{N(0,1)\}\) and \(\QQ=\{N(\mu,1):0<\mu\le1\}\), each with an appended uniform coordinate. Then \(S=\{aP:a\in\mathbb R\}\), and no mixture of alternatives equals \(P\) because its mean is positive, so \(\conv\QQ\cap S=\varnothing\). But \(\chi^2(N(\mu,1)\Vert N(0,1))=e^{\mu^2}-1\to0\) as \(\mu\to0\), so by Lemma~\ref{lem:chisq} no e-variable has positive uniform e-power.
+\end{example}
+
+\paragraph{Summary for unbounded e-variables.} Under domination and common randomisation,
+\[
+ \delta>0\ \Longrightarrow\ \text{an exact pivotal \(E\) with } g_{\QQ}(E)>0 \text{ exists}\ \Longrightarrow\ \conv\QQ\cap S=\varnothing ,
+\]
+and neither arrow reverses: the first by Theorem~\ref{thm:compactcounter} below, the second by Example~\ref{ex:gauss}. Theorem~\ref{thm:UI} identifies the first condition with the existence of an exact pivotal e-variable whose logarithmic tails are uniformly integrable. A geometric characterisation of the middle condition remains open.
+
+\section{Compactness: a counterexample and a repair}\label{sec:compact}
+
+This section examines the last sentence of \cite[Theorem~6.8]{ZRW}: if \(\QQ\) is tight, then the closure condition is further equivalent to \(\overline{\spn\PP}\cap\overline{\conv\QQ}=\varnothing\), with closures in total variation; in our notation, \(S\cap C=\varnothing\). We show it is false, explain where the argument breaks, and give a correct sufficient condition. The main criterion of that theorem, \(\delta>0\), is unaffected.
+
+\begin{theorem}[Disjoint closed sets at zero distance]\label{thm:compactcounter}
+There are dominated, jointly atomless families on a compact metric sample space for which \(\PP\) and \(\QQ\) are convex and variation-closed, \(\QQ\) is narrowly compact (in particular tight), and
+\[
+ S\cap C=\varnothing,\qquad \delta=0 .
+\]
+They admit an unbounded exact pivotal e-variable whose expected logarithm is the same finite positive number under every alternative, while no bounded exact e-variable has positive uniform e-power.
+\end{theorem}
+\begin{proof}
+Let \(J=\{0\}\cup\{1/n:n\ge2\}\) and \(\Omega=J\times[0,1]^2\), with coordinates \((i,x,u)\), and let \(\lambda\) be Lebesgue measure on \([0,1]\). For \(n\ge2\) set
+\[
+ P_n=\pt_{1/n}\otimes\lambda\otimes\lambda,\quad
+ A_n=\pt_{1/n}\otimes\Unif[0,e^{-4n}]\otimes\lambda,\quad
+ Q_n=\bigl(1-\tfrac1n\bigr)P_n+\tfrac1nA_n,
+\]
+and \(Q_0=\pt_0\otimes\lambda\otimes\lambda\). Let \(\PP\) be the countable probability mixtures of the \(P_n\), and \(\QQ\) the countable probability mixtures of \(Q_0\) and the \(Q_n\). The measure \(Q_0\) is an alternative, not a null. A common dominating probability is \(R=\frac12Q_0+\sum_{n\ge2}2^{-n}P_n\).
+
+Because the fibres \(\{1/n\}\times[0,1]^2\) are disjoint, \(\|\sum c_nP_n\|_{\rm var}=\sum|c_n|\) and \(\|c_0Q_0+\sum c_nQ_n\|_{\rm var}=|c_0|+\sum|c_n|\). The images of the closed \(\ell^1\) simplices are therefore variation-closed, \(S=\{\sum_nc_nP_n:(c_n)\in\ell^1\}\), and \(C=\QQ\). Every member of \(S\) gives the zero fibre no mass and has a constant density on each fibre \(\{1/n\}\times[0,1]^2\). A member of \(\QQ\) that charges the zero fibre is not in \(S\); one that does not charges some fibre \(1/n\) with weight \(b_n>0\), where its density relative to \(P_n\) is \(b_n\bigl(1-\frac1n+\frac{e^{4n}}n\one_{[0,e^{-4n}]}(x)\bigr)\), which is not constant. Hence \(S\cap C=\varnothing\). But
+\begin{equation}\label{eq:TVn}
+ \|Q_n-P_n\|_{\rm var}=\tfrac2n\bigl(1-e^{-4n}\bigr)\to0,
+\end{equation}
+so \(\delta=0\).
+
+Every probability measure on the compact space \(\Omega\) is tight. Moreover \(Q_n\to Q_0\) narrowly: for continuous \(f\), \(\EE_{P_n}f\to\EE_{Q_0}f\), and~\eqref{eq:TVn} controls the difference between \(Q_n\) and \(P_n\). So \(i\mapsto Q_i\) is narrowly continuous on the compact set \(J\), and \(\QQ\), the image of the narrowly compact set of probability measures on \(J\) under the continuous mixing map, is narrowly compact.
+
+Let \(c=\frac12-\log2\) and \(g=c+2=\frac52-\log2>0\), and define \(E=e^g\) on the zero fibre, \(E=(2\sqrt x)^{-1}\) on the fibres \(1/n\) for \(x>0\), and \(E=1\) where \(x=0\). Direct integration gives \(\EE_{P_n}E=1\) and \(\EE_{P_n}\log E=c\), with the same law for every \(n\), hence for every null mixture: \(E\) is exact and pivotal. Under \(A_n\), \(x=e^{-4n}V\) with \(V\) uniform, so \(\EE_{A_n}\log E=c+2n\), and therefore \(\EE_{Q_n}\log E=(1-\frac1n)c+\frac1n(c+2n)=g\); also \(\EE_{Q_0}\log E=g\). Since \(\log E\ge-\log2\), Tonelli's theorem extends \(\EE\log E=g\) to every alternative mixture. Finally, the randomisation coordinate \(u\) is independent of all densities, which depend on \((i,x)\) only. If \(F\) is bounded, nonnegative and exact, then \(|\EE_{Q_n}F-1|\le\|F\|_\infty\|Q_n-P_n\|_{\rm var}\to0\), and Jensen's inequality gives \(\limsup_n\EE_{Q_n}\log F\le0\), so \(g_{\QQ}(F)\le0\).
+\end{proof}
+
+\paragraph{Where the original argument breaks.} The proof in \cite{ZRW} passes from tightness to a narrowly convergent subsequence and then treats the narrow limit as an element of a variation-closed set. In the construction \(P_n\to Q_0\) narrowly, yet \(Q_0\notin S\): the indicator of the zero fibre is bounded and measurable but not continuous, so narrow convergence says nothing about it. On a compact space tightness holds automatically, so the hypothesis carries no information there. The relevant compactness is weak compactness of the densities in \(L^1(R)\). For ordinary testability, Larsson, Ruf and Ramdas \cite[Theorem~1.8]{LRR} show that narrow compactness of \emph{both} convex families makes the total-variation distance between them attained; here one of the two sets is the span \(S\), which is unbounded and cannot be narrowly compact, so compactness of \(\QQ\) alone cannot play that role.
+
+\begin{proposition}[A correct replacement]\label{prop:weakcompact}
+If \(C\) is weakly compact in \(L^1(R)\), then \(S\cap C=\varnothing\) if and only if \(\delta>0\). This holds in particular when the alternative densities are uniformly integrable with respect to \(R\).
+\end{proposition}
+\begin{proof}
+The norm-closed subspace \(S\) is weakly closed. If \(s_j+c_j\to v\) weakly along a net, a subnet has \(c_j\to c\in C\) weakly, so \(s_j\to v-c\in S\); thus \(S+C\) is weakly closed, hence norm closed. If \(S\cap C=\varnothing\), then \(0\notin S+C\), and some ball about zero misses \(S+C\), so \(\delta>0\); the converse is immediate. For the last sentence, a uniformly integrable set of densities is relatively weakly compact (Dunford--Pettis), and so is its closed convex hull, which is weakly closed (Krein--\v Smulian) \cite[Chapter~5]{AlbiacKalton}.
+\end{proof}
+
+\begin{proposition}[Compact alternatives allow pivotal truncation]\label{prop:compacttruncate}
+If \(\QQ\) itself is compact for \(\sigma(L^1(R),L^\infty(R))\), every exact pivotal e-variable with positive uniform e-power can be replaced by a bounded one with positive uniform e-power. No compactness of \(\PP\) is needed.
+\end{proposition}
+\begin{proof}
+Let \(F=(1+E)/2\), as in Theorem~\ref{thm:UI}, and choose \(0<a<g_{\QQ}(F)\). Because \(F\ge1/2\), each \(\log(F\wedge K)\) is a bounded function, so \(Q\mapsto\EE_Q\log(F\wedge K)\) is weakly continuous and the sets
+\[
+ O_K=\{Q\in\QQ:\EE_Q\log(F\wedge K)>a\},\qquad K=2,3,\dots,
+\]
+are open. They increase with \(K\) and, by monotone convergence, cover \(\QQ\). By compactness one \(O_K\) equals \(\QQ\). Dividing \(F\wedge K\) by its common null mean, which is at most one, gives a bounded exact pivotal e-variable with uniform e-power at least \(a\).
+\end{proof}
+
+Proposition~\ref{prop:compacttruncate} adapts to exact pivotal e-variables the compactness and truncation principle of \cite[Theorem~4.17]{GROW}.
+
+\begin{corollary}[Conjecture~6.9 under weak compactness]\label{cor:conjcompact}
+Assume domination and common randomisation, and suppose that \(\conv\QQ\) is \(\sigma(L^1(R),L^\infty(R))\)-compact. Then the following are equivalent: an exact pivotal e-variable with \(g_{\QQ}(E)>0\) exists; \(\delta>0\); and \(S\cap\conv\QQ=\varnothing\).
+\end{corollary}
+\begin{proof}
+Uniform e-power over \(\QQ\) passes to \(\conv\QQ\): for \(F\ge1/2\), the expected logarithm under a finite mixture is the mixture of the expected logarithms. Proposition~\ref{prop:compacttruncate}, applied to the family \(\conv\QQ\), and Theorem~\ref{thm:main} give the equivalence of the first two conditions. Since \(\conv\QQ\) is weakly compact, it is weakly and hence norm closed, so \(C=\conv\QQ\), and Proposition~\ref{prop:weakcompact} gives the third.
+\end{proof}
+
+\begin{remark}[Compactness of the closure is not enough]\label{rem:closure}
+The family \(\{Q_n:n\ge2\}\) of Section~\ref{sec:sequential} has uniformly integrable densities, so its closed convex hull is weakly compact, and \(Q_n\to P\) in variation. With the single null \(P\), \(\delta=0\), yet the unbounded pivotal e-variable of that section has e-power \(\tfrac52-\log2\) under every \(Q_n\). Corollary~\ref{cor:conjcompact} therefore needs \(\conv\QQ\) itself to be compact; compactness of its closure is not enough, because positive logarithmic power under the \(Q_n\) does not pass to their limit.
+\end{remark}
+
+\section{Sequential consequences}\label{sec:sequential}
+
+This section isolates the continuous part of the construction in Theorem~\ref{thm:compactcounter} and uses it to show, with explicit constants, how far e-power and detection time can diverge, and how the bounded pivot avoids this. The general phenomenon is known \cite{Forre}; the constants here come from the margin.
+
+On \([0,1]^2\) with coordinates \((x,u)\) let \(P=\lambda\otimes\lambda\), \(A_n=\Unif[0,e^{-4n}]\otimes\lambda\) and \(Q_n=(1-\frac1n)P+\frac1nA_n\) for \(n\ge2\), and let \(E=(2\sqrt x)^{-1}\). Each \(Q_n\) is equivalent to \(P\), and with \(c=\frac12-\log2\) and \(g=\frac52-\log2\),
+\begin{equation}\label{eq:counterstats}
+ \EE_PE=1,\qquad \EE_P\log E=c,\qquad \EE_{Q_n}\log E=g,\qquad d_{\rm TV}(Q_n,P)=\frac{1-e^{-4n}}n .
+\end{equation}
+The densities \(1-\frac1n+\frac{e^{4n}}n\one_{[0,e^{-4n}]}(x)\) are uniformly integrable: the density of \(Q_n\) exceeds a level \(K>1\) only on \([0,e^{-4n}]\) and only when \(n\) is large, and the \(Q_n\)-mass of that interval is at most \(2/n\). With a single null every statistic is pivotal, so this is an explicit instance of the known bounded/unbounded obstruction \cite[Example~3.15]{RamdasWang}, \cite[Example~5.1]{GROW}.
+
+\begin{proposition}[Escaping tail]\label{prop:exacttail}
+For every \(a\ge0\), \(\sup_{n\ge2}\EE_{Q_n}[(\log E-a)_+]=2+e^{-2a}/8\). Hence \(\lim_{a\to\infty}\sup_n\EE_{Q_n}[(\log E-a)_+]=2=g-c\), which attains the lower bound of Proposition~\ref{prop:defect}.
+\end{proposition}
+\begin{proof}
+Under \(P\), \(\log E\) has the law of \(-\log2+Z\) with \(Z\) exponential with rate two, so \(\EE_P(\log E-a)_+=e^{-2a}/8=:r(a)\). Under \(A_n\) its law is that of \(\log E+2n\) under \(P\). The inequality \((y+2n-a)_+\le(y-a)_++2n\) gives the upper bound \(r(a)+2\). For large \(n\), \(\log E+2n-a>0\) almost surely under \(A_n\), so \(\EE_{Q_n}(\log E-a)_+=(1-\frac1n)r(a)+\frac1n(2n+c-a)\to2+r(a)\).
+\end{proof}
+
+\begin{proposition}[Detection takes about \(n\) observations]\label{prop:delay}
+Let \(0<\alpha<1\), and let \(\tau\in\{1,2,\dots\}\cup\{\infty\}\) be a stopping time for i.i.d.\ observations and any auxiliary randomisation independent of them, with \(P^{\otimes\infty}(\tau<\infty)\le\alpha\). Then for every \(k\ge1\)
+\begin{equation}\label{eq:powerupper}
+ Q_n^{\otimes\infty}(\tau\le k)\le1-(1-\alpha)\bigl(1-\tfrac1n\bigr)^k,
+ \qquad\text{and}\qquad
+ \EE_{Q_n}\tau\ \ge\ n(1-\alpha)+\alpha .
+\end{equation}
+Nevertheless \(M_k=\prod_{j\le k}E(X_j)\) is a nonnegative martingale under \(P\), \(\EE_{Q_n}\log M_k=kg\) for every \(n\), and \(M_k\to\infty\) almost surely under each \(Q_n\).
+\end{proposition}
+\begin{proof}
+Generate each \(Q_n\)-observation by an independent contamination indicator with success probability \(1/n\), followed by a draw from \(A_n\) or \(P\). On the event that none of the first \(k\) indicators succeeds, which has probability \((1-\frac1n)^k\), the first \(k\) observations have law \(P^{\otimes k}\), and then \(\tau>k\) with probability at least \(1-\alpha\). This gives the first bound. Summing it, \(\EE_{Q_n}\tau=\sum_{k\ge0}Q_n(\tau>k)\ge1+(1-\alpha)\sum_{k\ge1}(1-\frac1n)^k=1+(1-\alpha)(n-1)\), in the extended sense. The martingale property follows from exactness and independence, the expected logarithm from~\eqref{eq:counterstats}, and divergence from the strong law of large numbers applied to the integrable increments \(\log E(X_j)\), whose mean is \(g>0\).
+\end{proof}
+
+Achieving power \(1-\beta\) against \(Q_n\) by time \(k\) therefore needs \(k\ge\log(\beta/(1-\alpha))/\log(1-\frac1n)\) when \(0<\beta<1-\alpha\), and uniformly over \(n\) no fixed horizon has power above \(\alpha\).
+
+\begin{proposition}[Uniform delay for the bounded pivot]\label{prop:boundedseq}
+Let \(0<\alpha<1\) and \(0<\delta<1\), and apply the binary pivot of Theorem~\ref{thm:main} to each observation with fresh independent randomisation. Allow the conditional law of each observation, given the past, to be any member of \(\PP\) under the null and any member of \(\QQ\) under the alternative. Let
+\[
+ M_k=\prod_{j=1}^k\bigl[1+\delta(2B_j-1)\bigr],\qquad \tau_\alpha=\inf\{k\ge1:\log M_k\ge\log(1/\alpha)\}.
+\]
+Under the null, \(\tau_\alpha<\infty\) with probability at most \(\alpha\). Under every alternative process,
+\begin{equation}\label{eq:bounddelay}
+ \EE\tau_\alpha\le\frac{\log(1/\alpha)+\log(1+\delta)}{I(\delta)} .
+\end{equation}
+\end{proposition}
+\begin{proof}
+Under the null each coin is conditionally fair, so \(M_k\) is a nonnegative martingale started at one and Ville's inequality gives the first claim. Under the alternative the conditional expected log increment is at least \(I(\delta)\). For \(T=\tau_\alpha\wedge N\), optional stopping for the bounded time \(T\) gives \(\EE\log M_T\ge I(\delta)\EE T\). Before crossing \(\log M_k<\log(1/\alpha)\), and one step adds at most \(\log(1+\delta)\), so \(\log M_T\le\log(1/\alpha)+\log(1+\delta)\). Letting \(N\to\infty\) gives~\eqref{eq:bounddelay}.
+\end{proof}
+
+\begin{remark}[Exact calibration of the coins]
+Because each coin is conditionally \(\Bern(1/2)\) under every null, whatever null is chosen at each step and however it depends on the past, the coins \(B_1,B_2,\dots\) are exactly i.i.d.\ fair coins under the null. A fixed-sample binomial test on \(\sum_jB_j\) is therefore valid at level \(\alpha\) with exactly known null law (with the usual boundary randomisation if size exactly \(\alpha\) is wanted), and can be used in place of Ville's inequality; under the alternative each coin has conditional success probability at least \((1+\delta)/2\). Ramdas \cite{RamdasSeq} characterises power-one sequential testability for i.i.d.\ composite problems through bounded finite-block scores and positively separated hulls; Proposition~\ref{prop:boundedseq} gives explicit constants in the simplest, one-observation, case, and \cite[Corollary~7.1]{ZRW} gives a test martingale under the same margin condition without pivotality.
+\end{remark}
+
+\section{A four-state example}\label{sec:finite}
+
+This section works through a finite experiment exactly, to show the size of the binary guarantee against the best pivotal and the best exact e-variables. On four states take the nulls and alternatives in Table~\ref{tab:example}, with an appended uniform coordinate.
+\begin{table}[ht]
+\centering
+\begin{tabular}{lrrrr}\toprule
+ & State 1 & State 2 & State 3 & State 4\\\midrule
+\(P_1\) & \(2/5\) & \(3/10\) & \(1/5\) & \(1/10\)\\
+\(P_2\) & \(1/10\) & \(1/5\) & \(3/10\) & \(2/5\)\\
+\(Q_1\) & \(2/5\) & \(1/10\) & \(1/10\) & \(2/5\)\\
+\(Q_2\) & \(7/20\) & \(3/20\) & \(2/5\) & \(1/10\)\\\bottomrule
+\end{tabular}
+\caption{A finite composite experiment; each row sums to one.}\label{tab:example}
+\end{table}
+
+\paragraph{The margin and its certificate.} The score and margin are
+\[
+ h=\tfrac1{31}(17,-31,11,3),\qquad\delta=\tfrac6{31}.
+\]
+Direct arithmetic gives \(P_1h=P_2h=0\) and \(Q_1h=Q_2h=6/31\), so \(\delta\ge6/31\). The matching primal certificate
+\begin{equation}\label{eq:certificate}
+ \tfrac{13}{31}Q_1+\tfrac{18}{31}Q_2-\tfrac{26}{31}P_1-\tfrac{11}{31}P_2=-\tfrac6{31}(0,1,0,0)
+\end{equation}
+has variation norm \(6/31\), so \(\delta\le6/31\); no numerical solver is needed. The coin success probabilities \((1+h)/2\) on the four states are \((24/31,0,21/31,17/31)\); both nulls give success probability \(1/2\) and both alternatives \(37/62\). The binary e-variable takes the values \(37/31\) and \(25/31\), and its alternative e-power is \(I(6/31)\approx0.0188492\) under both alternatives.
+
+\paragraph{The best pivotal e-variable.} Send state 2 to outcome \(o_1\); state 4 to \(o_1\) with probability \(1/3\) and to \(o_3\) otherwise; state 1 to \(o_2\) with probability \(1/3\) and to \(o_3\) otherwise; and state 3 to \(o_2\). Both nulls give the outcome the uniform law on \(\{o_1,o_2,o_3\}\), so any function of the outcome is pivotal; the alternatives give the laws \((7/30,7/30,16/30)\) and \((11/60,31/60,18/60)\). The e-variable with values \((627/1000,\,1113/1000,\,63/50)\) on \((o_1,o_2,o_3)\) has null mean exactly one and alternative e-powers \(0.039318\) and \(0.039066\), both above \(0.039\), about twice the binary guarantee. Optimising the three values for this kernel gives \(0.0391954\).
+
+No pivotal e-variable does better, by the following reduction. For a pivotal kernel, the column of conditional probabilities of each outcome, as a function of the state, lies in the cone \(\{k\ge0:(P_1-P_2)k=0\}\), that is \(3k_1+k_2-k_3-3k_4=0\), whose extreme rays are \((1,0,3,0)\), \((1,0,0,1)\), \((0,1,1,0)\) and \((0,3,0,1)\). Splitting each outcome according to a decomposition of its column into extreme rays gives a finer pivotal statistic, which cannot lower the best achievable e-power; and outcomes whose columns lie on the same ray may be merged without loss, because under every hypothesis the conditional law within such a group is the same, so averaging the e-values over the group keeps the null mean and, by Jensen's inequality, does not lower any expected logarithm. With one outcome per ray and weights \(w_1,\dots,w_4\), the requirement that each state's probabilities sum to one forces \(w_2=1-w_1\), \(w_3=1-3w_1\), \(w_4=w_1\), with \(0\le w_1\le1/3\). For each \(w_1\) the best uniform e-power is \(\min_{0\le\lambda\le1}D(\lambda q_1+(1-\lambda)q_2\Vert\pi)\), where \(\pi\), \(q_1\) and \(q_2\) are the outcome laws under the nulls and the two alternatives. Evaluated numerically on a fine grid of \(w_1\), this increases to \(0.0391954\) at \(w_1=1/3\), which is the kernel above. The pivotal optimum is therefore \(0.0391954\), to the accuracy of this one-dimensional computation.
+
+\paragraph{The best exact e-variable.} Without pivotality, the deterministic statistic \(F=(19/15,1/2,6/5,31/30)\) is exact under both nulls and has alternative e-powers \(0.056589\) and \(0.054972\); it is not pivotal, because its values have different null probabilities. The optimum over all exact e-variables, a concave programme in four unknowns, is about \(0.0556\). In this example pivotality costs about thirty per cent of the exact optimum, and the binary construction, which is optimal only as a guarantee in terms of \(\delta\), recovers about half of the pivotal optimum.
+
+The shipped scripts verify every rational identity above exactly and evaluate the logarithms numerically. None of the general theorems depends on these computations.
+
+\section{Scope and open questions}\label{sec:scope}
+
+This section states what the paper does not do.
+\begin{itemize}[leftmargin=*]
+\item The binary pivot gives a uniform guarantee and an existence criterion for bounded exact pivotal e-variables. It does not identify the optimal exact pivotal e-variable in a given experiment; for finite tables this is a convex optimisation over kernels, and Section~\ref{sec:finite} shows that richer kernels can do substantially better.
+\item For unbounded e-variables we give the bracket of Section~\ref{sec:unbounded} and the compact case of Corollary~\ref{cor:conjcompact}, but not a geometric characterisation of when an exact pivotal e-variable with positive uniform e-power exists.
+\item We do not study pointwise, rather than uniform, positivity of e-power for infinite alternative families.
+\item We consider one observation, or i.i.d.\ repetitions of the one-observation pivot. The large-sample rate of exact pivotal e-power for infinite families, which He and Cheng \cite{HeCheng} settle for finitely many nulls and the companion release \cite{companion} bounds for growing Gaussian families, is open.
+\item The separating score \(h\) comes from the Hahn--Banach theorem. For finite tables it solves a linear programme, but for infinite families its computation is a separate problem.
+\end{itemize}
+
+\section*{AI-use statement}
+This manuscript was prepared with substantial assistance from AI systems, which generated and checked proofs, carried out the computations, and drafted the text. The proofs were audited by independent AI review passes and the numerical claims were reproduced from the shipped scripts. The work has not been externally refereed or formally verified.
+
+\begin{thebibliography}{99}
+
+\bibitem{companion}
+Anonymous.
+\newblock The cost of exact calibration for growing Gaussian null families.
+\newblock Evidence Press release \texttt{exact-calibration-gaussian-null-families}, version 0.1.0-candidate, 2026.
+\newblock \href{https://doi.org/10.5281/zenodo.24252837}{doi:10.5281/zenodo.24252837};
+\url{https://evidencepress.org/releases/exact-calibration-gaussian-null-families/}.
+
+\bibitem{AlbiacKalton}
+F.~Albiac and N.~J.~Kalton.
+\newblock \emph{Topics in Banach Space Theory}.
+\newblock Graduate Texts in Mathematics. Springer, Cham, 2016.
+\newblock \href{https://doi.org/10.1007/978-3-319-31557-7}{doi:10.1007/978-3-319-31557-7}.
+
+\bibitem{Blackwell}
+D.~Blackwell.
+\newblock Equivalent comparisons of experiments.
+\newblock \emph{The Annals of Mathematical Statistics}, 24(2):265--272, 1953.
+\newblock \href{https://doi.org/10.1214/aoms/1177729032}{doi:10.1214/aoms/1177729032}.
+
+\bibitem{Forre}
+P.~Forr\'e.
+\newblock The Type-II error of test supermartingales: e-power versus the Chernoff--Stein exponent.
+\newblock arXiv:2609.27765, 2026.
+\newblock \url{https://arxiv.org/abs/2609.27765}.
+
+\bibitem{ForreTail}
+P.~Forr\'e.
+\newblock Type-II error bounds for test supermartingales from lower-tail hypotheses.
+\newblock arXiv:2609.27766, 2026.
+\newblock \url{https://arxiv.org/abs/2609.27766}.
+
+\bibitem{GHK}
+P.~Gr\"unwald, R.~de~Heide and W.~Koolen.
+\newblock Safe testing.
+\newblock \emph{Journal of the Royal Statistical Society Series B: Statistical Methodology}, 86(5):1091--1128, 2024.
+\newblock \href{https://doi.org/10.1093/jrsssb/qkae011}{doi:10.1093/jrsssb/qkae011}.
+
+\bibitem{HeCheng}
+H.~He and G.~Cheng.
+\newblock Asymptotically lossless exact and pivotal e-values.
+\newblock arXiv:2609.27923, 2026.
+\newblock \url{https://arxiv.org/abs/2609.27923}.
+
+\bibitem{Kelly}
+J.~L.~Kelly.
+\newblock A new interpretation of information rate.
+\newblock \emph{Bell System Technical Journal}, 35(4):917--926, 1956.
+\newblock \href{https://doi.org/10.1002/j.1538-7305.1956.tb03809.x}{doi:10.1002/j.1538-7305.1956.tb03809.x}.
+
+\bibitem{LeCam}
+L.~Le~Cam.
+\newblock \emph{Asymptotic Methods in Statistical Decision Theory}.
+\newblock Springer Series in Statistics. Springer, New York, 1986.
+\newblock \href{https://doi.org/10.1007/978-1-4612-4946-7}{doi:10.1007/978-1-4612-4946-7}.
+
+\bibitem{LRR}
+M.~Larsson, J.~Ruf and A.~Ramdas.
+\newblock A complete characterization of testable hypotheses.
+\newblock arXiv:2601.05217, version 3, 2026.
+\newblock \url{https://arxiv.org/abs/2601.05217}.
+
+\bibitem{LehmannRomano}
+E.~L.~Lehmann and J.~P.~Romano.
+\newblock \emph{Testing Statistical Hypotheses}.
+\newblock Springer Texts in Statistics. Springer, Cham, 2022.
+\newblock \href{https://doi.org/10.1007/978-3-030-70578-7}{doi:10.1007/978-3-030-70578-7}.
+
+\bibitem{GROW}
+A.~Ram, M.~Larsson, J.~Ruf and A.~Ramdas.
+\newblock Strong duality for the GROW criterion.
+\newblock arXiv:2606.24768, version 2, 2026.
+\newblock \url{https://arxiv.org/abs/2606.24768}.
+
+\bibitem{RamdasSeq}
+A.~Ramdas.
+\newblock A complete characterization of sequential testability and change detectability in i.i.d.\ models.
+\newblock arXiv:2609.05752, 2026.
+\newblock \url{https://arxiv.org/abs/2609.05752}.
+
+\bibitem{RamdasWang}
+A.~Ramdas and R.~Wang.
+\newblock Hypothesis testing with e-values.
+\newblock arXiv:2410.23614, version 6, 2025.
+\newblock \url{https://arxiv.org/abs/2410.23614}.
+
+\bibitem{VovkWang}
+V.~Vovk and R.~Wang.
+\newblock E-values: calibration, combination and applications.
+\newblock \emph{The Annals of Statistics}, 49(3):1736--1754, 2021.
+\newblock \href{https://doi.org/10.1214/20-AOS2020}{doi:10.1214/20-AOS2020}.
+
+\bibitem{ZRW}
+Z.~Zhang, A.~Ramdas and R.~Wang.
+\newblock On the existence of powerful p-values and e-values for composite hypotheses.
+\newblock \emph{The Annals of Statistics}, 52(5):2241--2267, 2024.
+\newblock \href{https://doi.org/10.1214/24-AOS2434}{doi:10.1214/24-AOS2434}.
+\newblock arXiv:2305.16539.
+
+\end{thebibliography}
+\end{document}

@@ -1,0 +1,19 @@
+{
+  "thm_notfree_exact_for_n_2_to_2000": true,
+  "thm_notfree_lower_bound": 0.13081203594113697,
+  "thm_notfree_E_Q_logE": 0.2512318814015158,
+  "remark_continuous_D": 0.30685281944005444,
+  "remark_continuous_v_eps_norms": [
+    0.1111111111111111,
+    0.010101010101010102,
+    0.00010001000100010001
+  ],
+  "example_gauss_chi2_ok": true,
+  "tv_n2": 0.49983226868604874,
+  "tv_n3": 0.3333312852625489,
+  "tv_n5": 0.1999999995877693,
+  "c": -0.19314718055994531,
+  "g": 1.8068528194400546,
+  "prop_exacttail_ok": true,
+  "prop_delay_identity_ok": true
+}

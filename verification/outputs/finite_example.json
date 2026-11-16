@@ -1,0 +1,132 @@
+{
+  "python": "3.11.14",
+  "example": {
+    "exact_certificate": {
+      "P": [
+        [
+          "2/5",
+          "3/10",
+          "1/5",
+          "1/10"
+        ],
+        [
+          "1/10",
+          "1/5",
+          "3/10",
+          "2/5"
+        ]
+      ],
+      "Q": [
+        [
+          "2/5",
+          "1/10",
+          "1/10",
+          "2/5"
+        ],
+        [
+          "7/20",
+          "3/20",
+          "2/5",
+          "1/10"
+        ]
+      ],
+      "delta": "6/31",
+      "h": [
+        "17/31",
+        "-1",
+        "11/31",
+        "3/31"
+      ],
+      "alternative_mixture": [
+        "13/31",
+        "18/31"
+      ],
+      "null_span_coefficients": [
+        "-26/31",
+        "-11/31"
+      ],
+      "signed_residual": [
+        "0",
+        "-6/31",
+        "0",
+        "0"
+      ],
+      "conditional_success_probabilities": [
+        "24/31",
+        "0",
+        "21/31",
+        "17/31"
+      ],
+      "null_success_probabilities": [
+        "1/2",
+        "1/2"
+      ],
+      "alternative_success_probabilities": [
+        "37/62",
+        "37/62"
+      ],
+      "binary_e_values": [
+        "37/31",
+        "25/31"
+      ],
+      "binary_guaranteed_loggrowth": 0.018849221152617043,
+      "conditional_mean_e_values": [
+        "1063/961",
+        "25/31",
+        "1027/961",
+        "979/961"
+      ],
+      "conditional_mean_loggrowth": [
+        0.032904423306881314,
+        0.03146472607686561
+      ],
+      "rational_certificate_verified": true
+    },
+    "optional_primal_and_dual_linear_programmes": {
+      "dual_margin": 0.19354838709677416,
+      "primal_margin": 0.19354838709677422,
+      "duality_gap": 5.551115123125783e-17,
+      "h": [
+        0.5483870967741934,
+        -1.0,
+        0.35483870967741943,
+        0.09677419354838716
+      ],
+      "null_score_means": [
+        0.0,
+        5.551115123125783e-17
+      ],
+      "alternative_score_means": [
+        0.19354838709677413,
+        0.1935483870967742
+      ],
+      "primal_alternative_weights": [
+        0.41935483870967705,
+        0.580645161290323
+      ],
+      "primal_null_coefficients": [
+        -0.8387096774193546,
+        -0.3548387096774199
+      ]
+    },
+    "rational_nonpivotal_exact_competitor": {
+      "e_values": [
+        "19/15",
+        "1/2",
+        "6/5",
+        "31/30"
+      ],
+      "alternative_loggrowth": [
+        0.05658887797828946,
+        0.054971600238369764
+      ],
+      "null_expectations": [
+        "1",
+        "1"
+      ],
+      "status": "Exact feasible competitor; log values evaluated numerically; no optimality claimed"
+    }
+  },
+  "numpy": "2.3.5",
+  "scipy": "1.17.0"
+}

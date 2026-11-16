@@ -1,0 +1,60 @@
+# SPDX-License-Identifier: MIT
+name: Replay
+on:
+  push:
+  pull_request:
+jobs:
+  quick:
+    name: Manifest; all checks under python -O compared with the recorded outputs; negative controls (blocking)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Check MANIFEST.sha256
+        run: sha256sum -c MANIFEST.sha256
+      - name: Install pinned requirements
+        run: python3 -m pip install --disable-pip-version-check -r verification/requirements.txt
+      - name: Run the checks under -O in a copy; run the negative controls
+        env:
+          PYTHONDONTWRITEBYTECODE: "1"
+        run: |
+          pkg="$RUNNER_TEMP/pkg"; n1="$RUNNER_TEMP/neg1"; n2="$RUNNER_TEMP/neg2"
+          for d in "$pkg" "$n1" "$n2"; do mkdir -p "$d/out"; cp -R verification "$d/verification"; done
+          test "$(grep -c 'delta = F(6, 31)' "$n1/verification/checks/finite_example.py")" = 1
+          sed -i 's|delta = F(6, 31)|delta = F(7, 31)|' "$n1/verification/checks/finite_example.py"
+          test "$(grep -c 'lb = log(mpf(27) / 16) / 4' "$n2/verification/checks/extension_checks.py")" = 1
+          sed -i 's|lb = log(mpf(27) / 16) / 4|lb = log(mpf(27) / 16) / 3|' "$n2/verification/checks/extension_checks.py"
+          cd "$pkg"
+          for s in finite_example pivot_comparison extension_checks; do python3 -I -B -O "verification/checks/$s.py" > "out/$s.json"; done
+          cd "$n1"; if python3 -I -B -O verification/checks/finite_example.py > /dev/null; then echo "negative control 1 not detected"; exit 1; fi
+          cd "$n2"; if python3 -I -B -O verification/checks/extension_checks.py > /dev/null; then echo "negative control 2 not detected"; exit 1; fi
+      - name: Compare with the recorded outputs
+        run: |
+          python3 -I - "$RUNNER_TEMP/pkg/out" verification/outputs <<'PY'
+          import json, math, sys
+          from pathlib import Path
+          new, old = Path(sys.argv[1]), Path(sys.argv[2])
+          skip = {"python", "numpy", "scipy"}
+          def same(a, b):
+              if isinstance(a, dict) and isinstance(b, dict):
+                  return set(a) == set(b) and all(same(a[k], b[k]) for k in a)
+              if isinstance(a, list) and isinstance(b, list):
+                  return len(a) == len(b) and all(same(x, y) for x, y in zip(a, b))
+              if isinstance(a, float) and isinstance(b, float):
+                  return math.isclose(a, b, rel_tol=1e-6, abs_tol=1e-9)
+              return type(a) is type(b) and a == b
+          # Exact rationals are stored as strings and booleans and must match exactly; floats come from linear
+          # programmes, an optimiser and quadrature and may differ in the last digits across platforms.
+          for f in ["finite_example.json", "pivot_comparison.json", "extension_checks.json"]:
+              g, s = (json.loads((p / f).read_text()) for p in (new, old))
+              if not same({k: v for k, v in g.items() if k not in skip}, {k: v for k, v in s.items() if k not in skip}):
+                  raise SystemExit(f"{f} differs from the recorded output beyond the declared tolerance")
+          ex = json.loads((new / "finite_example.json").read_text())["example"]["exact_certificate"]
+          if ex["delta"] != "6/31" or ex["rational_certificate_verified"] is not True: raise SystemExit("certificate")
+          print("PASS: three outputs agree with the recorded outputs; both negative controls detected")
+          PY
+      - name: Working tree unchanged
+        run: test -z "$(git status --porcelain)"

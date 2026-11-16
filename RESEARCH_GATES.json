@@ -1,0 +1,217 @@
+{
+ "schemaVersion": "1.0",
+ "provenance": "Compiled 16 November 2026 for 0.1.0-candidate from the dated searches of the internal AI-assisted review (15 November 2026), the corpus overlap check, PRIOR_ART.md, the reference records in refs.bib, REVIEW_SUMMARY.md and the paper's own positioning (Section 1). It records scrutiny performed, not historical priority.",
+ "contributionMap": [
+  {
+   "claim": "Theorems 3.1 and 3.2: under domination and joint atomlessness, margin delta > 0 iff a bounded exact pivotal e-variable with uniformly positive e-power exists; the binary pivot guarantees I(delta), the best guarantee depending on delta alone",
+   "unit": "statement",
+   "paperLocation": "Theorem 3.1; Theorem 3.2; Remark 3.3",
+   "searches": [
+    {
+     "date": "2026-11-15",
+     "corpus": "Evidence Press release corpus (site papers/); arXiv listing and full texts; Semantic Scholar; the citing literature of Zhang-Ramdas-Wang; Crossref; by the internal reviewers and the second-model adversarial review",
+     "query": "exact pivotal e-values infinite hypotheses; Conjecture 6.9 Zhang Ramdas Wang; exact p-values composite null span condition; pivotal e-variables nuisance parameters; binary e-value randomised similar test Kelly; tightness weak compactness exact e-values; cost of pivotality e-power"
+    },
+    {
+     "date": "2026-11-15",
+     "corpus": "as above, re-run during the revision round for the extension",
+     "query": "pivotal statistic closed span of nulls total variation; unbounded exact e-variables uniform integrability; chi-square obstruction e-values; asymptotically lossless exact pivotal e-values"
+    }
+   ],
+   "closestPriorWork": "Zhang-Ramdas-Wang, Ann. Statist. 52 (2024), Theorem 6.8 (bounded exact criterion), Conjecture 6.9 (pivotal version), Example 6.11 (sign-test binary e-value)",
+   "verdict": "new-in-bounded-search",
+   "verdictNote": "proves the sufficiency direction of Conjecture 6.9 with an optimal-in-delta guarantee; ZRW Example 6.11 is credited as a special case"
+  },
+  {
+   "claim": "Corollary 3.4: transport-free proof of ZRW Theorem 6.1 (e) => (a),(b) for finite families; Conjecture 6.9 with 'bounded' added holds in both directions",
+   "unit": "statement",
+   "paperLocation": "Corollary 3.4",
+   "searches": [
+    {
+     "date": "2026-11-15",
+     "corpus": "Evidence Press release corpus (site papers/); arXiv listing and full texts; Semantic Scholar; the citing literature of Zhang-Ramdas-Wang; Crossref; by the internal reviewers and the second-model adversarial review",
+     "query": "exact pivotal e-values infinite hypotheses; Conjecture 6.9 Zhang Ramdas Wang; exact p-values composite null span condition; pivotal e-variables nuisance parameters; binary e-value randomised similar test Kelly; tightness weak compactness exact e-values; cost of pivotality e-power"
+    }
+   ],
+   "closestPriorWork": "ZRW Theorem 6.1 (proof via simultaneous optimal transport); Ramdas-Wang monograph arXiv:2410.23614v6 Section 14.3 / Theorem 14.6",
+   "verdict": "partially-known-cited",
+   "verdictNote": "the finite statement is ZRW's; only the transport-free route is claimed"
+  },
+  {
+   "claim": "Proposition 4.3 and Theorem 4.5: pivotal statistics see only the closed null span; an experiment with one alternative where an exact unbounded e-variable has e-power at least (1/4)log(27/16) but every pivotal e-variable has none",
+   "unit": "statement",
+   "paperLocation": "Proposition 4.3; Corollary 4.4; Theorem 4.5; Remark 4.6",
+   "searches": [
+    {
+     "date": "2026-11-15",
+     "corpus": "Evidence Press release corpus (site papers/); arXiv listing and full texts; Semantic Scholar; the citing literature of Zhang-Ramdas-Wang; Crossref; by the internal reviewers and the second-model adversarial review",
+     "query": "exact pivotal e-values infinite hypotheses; Conjecture 6.9 Zhang Ramdas Wang; exact p-values composite null span condition; pivotal e-variables nuisance parameters; binary e-value randomised similar test Kelly; tightness weak compactness exact e-values; cost of pivotality e-power"
+    },
+    {
+     "date": "2026-11-15",
+     "corpus": "as above, re-run during the revision round for the extension",
+     "query": "pivotal statistic closed span of nulls total variation; unbounded exact e-variables uniform integrability; chi-square obstruction e-values; asymptotically lossless exact pivotal e-values"
+    }
+   ],
+   "closestPriorWork": "Ramdas-Wang arXiv:2410.23614v6 Example 3.15; Ram-Larsson-Ruf-Ramdas arXiv:2606.24768v2 Example 5.1 (the 'only if' direction fails for unbounded e-variables); He-Cheng arXiv:2609.27923v1 Theorem 2.2 (pivotality asymptotically free for finite nulls)",
+   "verdict": "new-in-bounded-search",
+   "verdictNote": "the failure of 'only if' for unbounded e-variables is credited as prior work; the cost-of-pivotality example and the closed-span obstruction were not found"
+  },
+  {
+   "claim": "Theorem 5.1, Proposition 5.2, Corollary 5.4: the tightness sentence of ZRW Theorem 6.8 is false; weak compactness in L^1 repairs it; under weak compactness of conv Q the conjecture holds in both directions",
+   "unit": "statement",
+   "paperLocation": "Section 5",
+   "searches": [
+    {
+     "date": "2026-11-15",
+     "corpus": "Evidence Press release corpus (site papers/); arXiv listing and full texts; Semantic Scholar; the citing literature of Zhang-Ramdas-Wang; Crossref; by the internal reviewers and the second-model adversarial review",
+     "query": "exact pivotal e-values infinite hypotheses; Conjecture 6.9 Zhang Ramdas Wang; exact p-values composite null span condition; pivotal e-variables nuisance parameters; binary e-value randomised similar test Kelly; tightness weak compactness exact e-values; cost of pivotality e-power"
+    }
+   ],
+   "closestPriorWork": "ZRW Theorem 6.8 (final sentence); Larsson-Ruf-Ramdas arXiv:2601.05217v3 Theorem 1.8; Ram-Larsson-Ruf-Ramdas Theorem 4.17",
+   "verdict": "new-in-bounded-search",
+   "verdictNote": "corrects one sentence; the main criterion of Theorem 6.8 is unaffected"
+  },
+  {
+   "claim": "Method: Hahn-Banach separation margin (Lemma 2.2), randomisation of a bounded similar score into a fair coin, Kelly betting",
+   "unit": "method",
+   "paperLocation": "Lemma 2.2; proof of Theorem 3.1; Remark 3.5",
+   "searches": [
+    {
+     "date": "2026-11-15",
+     "corpus": "Evidence Press release corpus (site papers/); arXiv listing and full texts; Semantic Scholar; the citing literature of Zhang-Ramdas-Wang; Crossref; by the internal reviewers and the second-model adversarial review",
+     "query": "exact pivotal e-values infinite hypotheses; Conjecture 6.9 Zhang Ramdas Wang; exact p-values composite null span condition; pivotal e-variables nuisance parameters; binary e-value randomised similar test Kelly; tightness weak compactness exact e-values; cost of pivotality e-power"
+    }
+   ],
+   "closestPriorWork": "Similar tests: Lehmann-Romano Chapter 4; test randomisation: Ramdas-Wang Section 3.1 and Theorem 3.9; Kelly 1956; Lemma 2.2 follows ZRW's proof of Theorem 6.8",
+   "verdict": "known-cited",
+   "verdictNote": "every ingredient is classical and credited; novelty is claimed only for the statements above"
+  }
+ ],
+ "sourcesReadInFull": [
+  {
+   "citation": "Zhang, Z., Ramdas, A. and Wang, R. (2024), On the existence of powerful p-values and e-values for composite hypotheses, The Annals of Statistics 52(5), 2241-2267 (print and arXiv:2305.16539v4)",
+   "usedFor": "Theorem 6.1, Proposition 3.3, Proposition 6.4, Theorem 6.8, Conjecture 6.9, Example 6.11, Corollary 7.1, arXiv Example A.4",
+   "readWhat": "whole paper",
+   "date": "2026-11-15",
+   "evidenceLocator": "https://doi.org/10.1214/24-AOS2434"
+  },
+  {
+   "citation": "Ramdas, A. and Wang, R., Hypothesis testing with e-values, arXiv:2410.23614v6",
+   "usedFor": "Sections 3.1-3.2, Theorem 3.9, Example 3.15, Section 14.3, Theorem 14.6",
+   "readWhat": "relevant chapters in full",
+   "date": "2026-11-15",
+   "evidenceLocator": "https://arxiv.org/abs/2410.23614v6"
+  },
+  {
+   "citation": "Ram, A., Larsson, M., Ruf, J. and Ramdas, A., Strong duality for the GROW criterion, arXiv:2606.24768v2",
+   "usedFor": "Example 5.1, Theorem 4.17",
+   "readWhat": "whole paper",
+   "date": "2026-11-15",
+   "evidenceLocator": "https://arxiv.org/abs/2606.24768v2"
+  },
+  {
+   "citation": "Larsson, M., Ruf, J. and Ramdas, A., A complete characterization of testable hypotheses, arXiv:2601.05217v3",
+   "usedFor": "Theorem 1.8",
+   "readWhat": "whole paper",
+   "date": "2026-11-15",
+   "evidenceLocator": "https://arxiv.org/abs/2601.05217v3"
+  },
+  {
+   "citation": "He, H. and Cheng, G., Asymptotically lossless exact and pivotal e-values, arXiv:2609.27923v1",
+   "usedFor": "Theorem 2.2",
+   "readWhat": "whole paper",
+   "date": "2026-11-15",
+   "evidenceLocator": "https://arxiv.org/abs/2609.27923v1"
+  },
+  {
+   "citation": "Forre, P., The Type-II error of test supermartingales: e-power versus the Chernoff-Stein exponent, arXiv:2609.27765v1; and Type-II error bounds for test supermartingales from lower-tail hypotheses, arXiv:2609.27766v1",
+   "usedFor": "e-power versus finite-horizon detection",
+   "readWhat": "whole papers",
+   "date": "2026-11-15",
+   "evidenceLocator": "https://arxiv.org/abs/2609.27765v1"
+  }
+ ],
+ "limitationTriage": [
+  {
+   "limitation": "No formula for the optimal pivotal e-variable in general",
+   "closingQuestion": "What is the best exact pivotal e-power for a given experiment?",
+   "triedOrSearched": "finite tables reduce to a convex optimisation over kernels; the four-state example shows richer kernels beat the binary pivot",
+   "estimatedCost": "research-level",
+   "cheap": false,
+   "decision": "OPEN",
+   "reasonOpen": "Section 8",
+   "whyNotClosedNow": "outside the scope of the paper"
+  },
+  {
+   "limitation": "No geometric characterisation of unbounded exact pivotal existence",
+   "closingQuestion": "Exactly when does an unbounded exact pivotal e-variable with positive uniform e-power exist?",
+   "triedOrSearched": "necessary condition (Corollary 4.4), its insufficiency (Lemma 4.7, Example 4.8), the tail criterion (Theorem 4.1) and the compact case (Corollary 5.4)",
+   "estimatedCost": "research-level",
+   "cheap": false,
+   "decision": "OPEN",
+   "reasonOpen": "Section 8",
+   "whyNotClosedNow": "stated in the paper"
+  },
+  {
+   "limitation": "One observation; n-observation rates for infinite families open",
+   "closingQuestion": "What is the large-sample rate of exact pivotal e-power for infinite families?",
+   "triedOrSearched": "He-Cheng settle finite nulls; the companion release bounds growing Gaussian families",
+   "estimatedCost": "research-level",
+   "cheap": false,
+   "decision": "OPEN",
+   "reasonOpen": "Section 8",
+   "whyNotClosedNow": "outside the scope of the paper"
+  },
+  {
+   "limitation": "The separating score for infinite families comes from Hahn-Banach and is not computed",
+   "closingQuestion": "Can h be computed for infinite families?",
+   "triedOrSearched": "finite tables: linear programme (finite_example.py)",
+   "estimatedCost": "research-level",
+   "cheap": false,
+   "decision": "OPEN",
+   "reasonOpen": "Section 8",
+   "whyNotClosedNow": "a separate computational problem"
+  },
+  {
+   "limitation": "Computational checks could be vacuous under optimisation or share an error with the text",
+   "closingQuestion": "Do the checks fail when a constant is wrong?",
+   "triedOrSearched": "assert replaced by explicit ArithmeticError; negative controls (delta 6/31 -> 7/31; lower bound (1/4)log(27/16) -> (1/3)log(27/16)) exit 1 under -O",
+   "estimatedCost": "minutes",
+   "cheap": true,
+   "decision": "CLOSED",
+   "reasonOpen": "",
+   "whyNotClosedNow": ""
+  },
+  {
+   "limitation": "Priority rests on a bounded search",
+   "closingQuestion": "Would indexed databases change attribution?",
+   "triedOrSearched": "arXiv, Semantic Scholar, the citing literature of ZRW, Evidence Press corpus",
+   "estimatedCost": "subscription indexes",
+   "cheap": false,
+   "decision": "OPEN",
+   "reasonOpen": "MathSciNet and zbMATH not used",
+   "whyNotClosedNow": "recorded here and in PRIOR_ART.md"
+  }
+ ],
+ "extensionScout": {
+  "by": "five internal reviewer agents and an adversarial review by a second AI model",
+  "date": "2026-11-15",
+  "proposals": [
+   "what pivotality costs for unbounded e-variables",
+   "whether the closed-span condition is sufficient",
+   "compact case of the conjecture",
+   "price of pivotality in the worked example",
+   "optimal pivotal e-power in general",
+   "n-observation rates for infinite families"
+  ],
+  "actions": [
+   "done: Proposition 4.3, Theorem 4.5, Remark 4.6",
+   "done: not sufficient (Lemma 4.7, Example 4.8)",
+   "done: Corollary 5.4",
+   "done: Section 7 (binary, ternary pivot, exact optimum)",
+   "not attempted; open question in Section 8",
+   "not attempted; open question in Section 8"
+  ]
+ }
+}

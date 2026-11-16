@@ -1,0 +1,17 @@
+Software with which the recorded outputs were reproduced before this release was frozen (16 November 2026)
+
+  Platform    macOS 27.2, arm64 (Apple silicon)
+  Python      CPython 3.12.11 (via uv; checked inside the environment), run with -I (isolated) and -B, and also with -O;
+              numpy 2.3.5, scipy 1.17.0, mpmath 1.3.0 (verification/requirements.txt)
+  pdfTeX      TeX Live 2026; manuscript.pdf from manuscript.tex (no figures), three pdflatex passes
+  GitHub CI   CPython 3.12 on ubuntu-latest with the pinned requirements
+
+Commands (from the package root; each script prints JSON on standard output):
+
+  UV="uv run --no-project --python 3.12 --with numpy==2.3.5 --with scipy==1.17.0 --with mpmath==1.3.0"
+  $UV python -I -B -O verification/checks/finite_example.py > finite_example.json      # about 1 s
+  $UV python -I -B -O verification/checks/pivot_comparison.py > pivot_comparison.json  # about 2 s
+  $UV python -I -B -O verification/checks/extension_checks.py > extension_checks.json  # about 1 s
+
+Fields that legitimately vary between runs: "python", "numpy" and "scipy" in finite_example.json (the recorded file was
+produced under CPython 3.11.14); on other platforms, the last digits of linear-programming and optimiser floats.

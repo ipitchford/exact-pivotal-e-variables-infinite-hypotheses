@@ -1,0 +1,119 @@
+{
+ "title": "Exact pivotal e-variables for infinite hypotheses: a binary construction and what pivotality costs",
+ "upload_type": "publication",
+ "publication_type": "preprint",
+ "description": "<p><strong>Unrefereed research candidate.</strong> In one sentence: any bounded score that averages zero under every null distribution and at least &delta; under every alternative can be turned into a coin that is fair under every null and biased under every alternative, and betting on that coin gives an exact, pivotal e-variable with the best growth guarantee that depends on &delta; alone; for unbounded e-variables, by contrast, insisting on pivotality can cost all the power.</p><p><strong>Context.</strong> An e-value measures evidence against a hypothesis like the payoff of a fair bet against it: if the hypothesis is true its average is at most one. Its quality is the expected logarithm under the alternative (e-power), the rate at which evidence grows. When the null is a whole family of distributions (nuisance parameters), two stronger demands are natural: an e-variable is exact if its average is exactly one under every null, and pivotal if its whole distribution is the same under every null, so that its null behaviour is known even though the true null is not. Zhang, Ramdas and Wang (Annals of Statistics, 2024) showed for finitely many distributions that exact pivotal e-values exist exactly when the alternatives stay away from the linear span of the nulls, with a proof using optimal transport. For infinite families they characterised bounded exact e-variables by a closure condition and conjectured a pivotal version (Conjecture 6.9, print numbering).</p><p><strong>Results.</strong> (1) Binary pivot (Theorems 3.1 and 3.2, Corollary 3.4). If the separation margin &delta; between the alternatives and the null span is positive, randomising the score into a coin with heads probability (1 + score)/2 and betting the Kelly fraction &delta; gives a bounded exact pivotal e-variable with e-power at least I(&delta;) = [(1+&delta;)log(1+&delta;) + (1&minus;&delta;)log(1&minus;&delta;)]/2 under every alternative; no guarantee depending only on &delta; can be larger. This proves the sufficiency direction of the conjecture and gives a transport-free proof of the step of Zhang, Ramdas and Wang's finite theorem that produces exact pivotal p- and e-variables. The ingredients (similar tests, randomisation, Kelly betting) are classical; the contribution is that this short route works for infinite families with the best possible guarantee. (2) Pivotality is not free for unbounded e-variables (Section 4). A pivotal statistic cannot tell apart an alternative that lies in the closed span of the nulls (Proposition 4.3); an experiment with one alternative and a closed convex null family has an exact e-variable with e-power at least (1/4)log(27/16) &asymp; 0.13 while every pivotal e-variable has none (Theorem 4.5). (3) Compactness (Theorem 5.1, Proposition 5.2, Corollary 5.4). The sentence of Zhang, Ramdas and Wang's Theorem 6.8 saying that tightness of the alternatives makes a simpler criterion equivalent is false, even on a compact space; weak compactness in L<sup>1</sup> is a correct replacement, and under weak compactness of the convex hull of the alternatives the conjecture holds in both directions. Their main criterion is unaffected. (4) Illustrations: sequential consequences for detection time, and a four-state example with an exact rational certificate (&delta; = 6/31): binary guarantee about 0.0188, best pivotal e-variable about 0.039, best exact e-variable about 0.0556.</p><p><strong>Limits.</strong> One observation; sequential results follow only by repeating it. There is no general formula for the best pivotal e-variable, and no full characterisation for unbounded pivotal e-variables (a uniform-integrability criterion and a strict two-sided bracket are given). The separating score comes from functional analysis; for finite tables it is computable by linear programming. The binary guarantee is a worst case and can be well below the best achievable in a given problem.</p><p><strong>Contents.</strong> The paper (LaTeX source and PDF); three Python scripts (the margin linear programmes and the exact rational four-state certificate; the pivotal comparison with a ternary kernel, a ray reduction and a grid linear programme; exact and high-precision checks of the constants in Sections 4 to 6) with their recorded outputs; a dated prior-art record; the bibliography from registry records; a machine-readable index; a research-gate record; a review summary; a replay receipt and SHA-256 sums.</p><p><strong>Assurance.</strong> Written proofs; the computations check the stated constants and the worked example and are not part of the proofs. Internal AI-assisted review only (five reviewer roles, an adversarial review and an audit of new proofs by a second AI model, clean replays, one revision round with an extension, a re-review and a proof audit): not peer review, independent reproduction or formal verification. The existence theorem, the closure criterion and Conjecture 6.9 are due to Zhang, Ramdas and Wang. Creator: Anonymous. Text and data CC0-1.0; code MIT.</p>",
+ "creators": [
+  {
+   "name": "Anonymous"
+  }
+ ],
+ "access_right": "open",
+ "license": "cc-zero",
+ "version": "0.1.0-candidate",
+ "publication_date": "2026-11-16",
+ "keywords": [
+  "e-values",
+  "e-variables",
+  "composite hypotheses",
+  "exact calibration",
+  "pivotal statistics",
+  "nuisance parameters",
+  "Kelly betting",
+  "hypothesis testing",
+  "functional analysis"
+ ],
+ "notes": "Subtitle: A fair coin built from any separating score gives exact, pivotal evidence with the best possible guarantee; for unbounded evidence, pivotality can cost everything. Code (verification/checks/*.py and the CI workflows) is MIT; prose, manuscript and data are CC0-1.0.",
+ "related_identifiers": [
+  {
+   "identifier": "https://github.com/ipitchford/exact-pivotal-e-variables-infinite-hypotheses/tree/v0.1.0-candidate",
+   "relation": "isSupplementTo",
+   "scheme": "url"
+  },
+  {
+   "identifier": "https://evidencepress.org/releases/exact-pivotal-e-variables-infinite-hypotheses/",
+   "relation": "isDocumentedBy",
+   "scheme": "url"
+  },
+  {
+   "identifier": "10.5281/zenodo.24252837",
+   "relation": "references",
+   "scheme": "doi"
+  },
+  {
+   "identifier": "10.1007/978-3-319-31557-7",
+   "relation": "references",
+   "scheme": "doi"
+  },
+  {
+   "identifier": "10.1214/aoms/1177729032",
+   "relation": "references",
+   "scheme": "doi"
+  },
+  {
+   "identifier": "10.1093/jrsssb/qkae011",
+   "relation": "references",
+   "scheme": "doi"
+  },
+  {
+   "identifier": "10.1002/j.1538-7305.1956.tb03809.x",
+   "relation": "references",
+   "scheme": "doi"
+  },
+  {
+   "identifier": "10.1007/978-1-4612-4946-7",
+   "relation": "references",
+   "scheme": "doi"
+  },
+  {
+   "identifier": "10.1007/978-3-030-70578-7",
+   "relation": "references",
+   "scheme": "doi"
+  },
+  {
+   "identifier": "10.1214/20-aos2020",
+   "relation": "references",
+   "scheme": "doi"
+  },
+  {
+   "identifier": "10.1214/24-aos2434",
+   "relation": "references",
+   "scheme": "doi"
+  },
+  {
+   "identifier": "arXiv:2609.27765",
+   "relation": "references",
+   "scheme": "arxiv"
+  },
+  {
+   "identifier": "arXiv:2609.27766",
+   "relation": "references",
+   "scheme": "arxiv"
+  },
+  {
+   "identifier": "arXiv:2609.27923",
+   "relation": "references",
+   "scheme": "arxiv"
+  },
+  {
+   "identifier": "arXiv:2601.05217",
+   "relation": "references",
+   "scheme": "arxiv"
+  },
+  {
+   "identifier": "arXiv:2606.24768",
+   "relation": "references",
+   "scheme": "arxiv"
+  },
+  {
+   "identifier": "arXiv:2609.05752",
+   "relation": "references",
+   "scheme": "arxiv"
+  },
+  {
+   "identifier": "arXiv:2410.23614",
+   "relation": "references",
+   "scheme": "arxiv"
+  }
+ ]
+}
